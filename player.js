@@ -23,16 +23,26 @@ Player.prototype.goRight = function(){
 function Attack(){
     this.style = '';
     this.x = 0;
-    this.y = 0;
+    this.y = 500;
     this.x2 = 0;
     this.y2 = 0;
+    this.intervalId = undefined;
 }
 
 Attack.prototype.updateAttack = function(x, x2, height){
-    console.log('attack!' + x);
     this.style = 'red';
     this.x = x + 10;
-    this.y = 0;
+    this.y = 450;
     this.x2 = x2 - 20;
-    this.y2 = height;
+    this.y2 = height + x2;
+
+    this.intervalId = clearInterval(this.intervalId);;
+    this.intervalId = setInterval(function(){
+        console.log(this.y);
+        this.y = this.y - 50;
+
+        if(this.y === 0){
+            clearInterval(this.intervalId);
+        }
+    }.bind(this),250);
 };
