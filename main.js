@@ -6,4 +6,4 @@ $(document).ready(function(){
 
     // incluir detección de click en start para empezar
     pang.ini();
-})
+});
