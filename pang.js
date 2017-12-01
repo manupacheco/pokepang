@@ -28,16 +28,7 @@ PangGame.prototype._drawAttack = function () {
     this.ctx.fillRect(this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
 };
 
-PangGame.prototype._drawBigBubble = function () {
-    this.ctx.fillStyle = this.bigBubble.style;
-    this.ctx.beginPath();
-    this.ctx.fillRect(this.bigBubble.x, this.bigBubble.y, this.bigBubble.x2, this.bigBubble.y2);
-    //this.ctx.arc(this.bigBubble.x, this.bigBubble.y, this.bigBubble.radius, 0, Math.PI * 2, true);
-    this.ctx.closePath();
-    this.ctx.fill();
-};
-
-PangGame.prototype._drawsSmallBubbles = function (bubble) {
+PangGame.prototype._drawsBubbles = function (bubble) {
     this.ctx.fillStyle = bubble.style;
     this.ctx.beginPath();
     this.ctx.fillRect(bubble.x, bubble.y, bubble.x2, bubble.y2);
@@ -54,11 +45,13 @@ PangGame.prototype._collisionDetectionElements = function (elementOne, elementTw
 PangGame.prototype._collisionPlayerBubbles = function (bubble) {
     if ((this._collisionDetectionElements(bubble, this.player)) === true) {
         window.cancelAnimationFrame(this.intervalGame);
-        window.cancelAnimationFrame(bubble.intervalBubble);
+        window.cancelAnimationFrame(this.bigBubble.intervalBubble);
+        window.cancelAnimationFrame(this.leftBubble.intervalBubble);
+        window.cancelAnimationFrame(this.rightBubble.intervalBubble);
+        this.intervalGame = undefined;
         this._statusGame('lose');
     }
 };
-
 
 PangGame.prototype._collisionBigBubbleAttack = function () {
     if ((this._collisionDetectionElements(this.bigBubble, this.attack)) === true) {
@@ -96,6 +89,7 @@ PangGame.prototype._statusGame = function (status) {
     if(status === 'lose'){
         this._youLose();
     }
+
 };
 
 PangGame.prototype._youWin = function () {
@@ -118,6 +112,21 @@ PangGame.prototype._controlsKeys = function () {
             case 32:
                 this.attack.updateAttack(this.player.x, this.player.x2, height, width);
                 break;
+            case 90: //z
+                console.log('pause');
+                if(this.intervalGame != undefined){
+                    window.cancelAnimationFrame(this.intervalGame);
+                    window.cancelAnimationFrame(this.bigBubble.intervalBubble);
+                    window.cancelAnimationFrame(this.leftBubble.intervalBubble);
+                    window.cancelAnimationFrame(this.rightBubble.intervalBubble);
+                    this.intervalGame = undefined;
+                }else{
+                    this._update();
+                    this.bigBubble.updatePosBubble();
+                    this.leftBubble.updatePosBubble();
+                    this.rightBubble.updatePosBubble();
+                }
+                break;
         }
     }.bind(this);
 };
@@ -126,9 +135,10 @@ PangGame.prototype._update = function () {
     this.ctx.clearRect(0, 0, width, height);
     this._drawAttack();
     this._drawPlayer();
-    this._drawBigBubble();
-    this._drawsSmallBubbles(this.leftBubble);
-    this._drawsSmallBubbles(this.rightBubble);
+    //this._drawBigBubble();
+    this._drawsBubbles(this.bigBubble);
+    this._drawsBubbles(this.leftBubble);
+    this._drawsBubbles(this.rightBubble);
     this._collisionBigBubbleAttack();
     this._collisionSmallBubbleAttack(this.leftBubble);
     this._collisionSmallBubbleAttack(this.rightBubble);
