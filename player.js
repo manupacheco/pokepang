@@ -3,19 +3,18 @@ function Player() {
     this.y2 = 50;
     this.x = (width / 2) - this.x2;
     this.y = height - this.y2;
+    this.speed = 25;
 }
 
 Player.prototype.goLeft = function () {
     if (this.x !== 0) {
-        this.x = this.x - this.x2;
-        console.log('l');
+        this.x = this.x - this.speed;
     }
 };
 
 Player.prototype.goRight = function () {
     if (this.x !== (width - this.x2)) {
-        this.x = this.x + this.x2;
-        console.log('r');
+        this.x = this.x + this.speed;
     }
 };
 
@@ -48,7 +47,7 @@ Attack.prototype.updateAttack = function (x, x2, height, width) {
             this.y2 = 0;
             this.intervalAttack = undefined;
         }
-    }.bind(this), 10);
+    }.bind(this), 5);
 };
 
 Attack.prototype.deleteAttack = function () {

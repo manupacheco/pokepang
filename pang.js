@@ -8,6 +8,7 @@ function PangGame(options) {
     this.bigBubble = new Bubble(height, width, 50, 50, 100, 100, 1);
     this.rightBubble = new Bubble();
     this.leftBubble = new Bubble();
+    this.counterBubble = 6;
     this.intervalGame = undefined;
 }
 
@@ -36,18 +37,10 @@ PangGame.prototype._drawBigBubble = function () {
     this.ctx.fill();
 };
 
-PangGame.prototype._drawBubbles = function () {
-    this.ctx.fillStyle = this.rightBubble.style;
+PangGame.prototype._drawsSmallBubbles = function (bubble) {
+    this.ctx.fillStyle = bubble.style;
     this.ctx.beginPath();
-    this.ctx.fillRect(this.rightBubble.x, this.rightBubble.y, this.rightBubble.x2, this.rightBubble.y2);
-    //this.ctx.arc(this.bigBubble.x, this.bigBubble.y, this.bigBubble.radius, 0, Math.PI * 2, true);
-    this.ctx.closePath();
-    this.ctx.fill();
-    
-    this.ctx.fillStyle = this.leftBubble.style;
-    this.ctx.beginPath();
-    this.ctx.fillRect(this.leftBubble.x, this.leftBubble.y, this.leftBubble.x2, this.leftBubble.y2);
-    //this.ctx.arc(this.bigBubble.x, this.bigBubble.y, this.bigBubble.radius, 0, Math.PI * 2, true);
+    this.ctx.fillRect(bubble.x, bubble.y, bubble.x2, bubble.y2);
     this.ctx.closePath();
     this.ctx.fill();
 };
@@ -58,26 +51,14 @@ PangGame.prototype._collisionDetectionElements = function (elementOne, elementTw
     }
 };
 
-PangGame.prototype._collisionPlayerBigBubble = function () {
-    if ((this._collisionDetectionElements(this.bigBubble, this.player)) === true) {
-        window.cancelAnimationFrame(this.intervalGame.bind(this));
-        window.cancelAnimationFrame(this.bigBubble.intervalBubble);
+PangGame.prototype._collisionPlayerBubbles = function (bubble) {
+    if ((this._collisionDetectionElements(bubble, this.player)) === true) {
+        window.cancelAnimationFrame(this.intervalGame);
+        window.cancelAnimationFrame(bubble.intervalBubble);
+        this._statusGame('lose');
     }
 };
 
-PangGame.prototype._collisionPlayerLeftBubble = function () {
-    if ((this._collisionDetectionElements(this.leftBubble, this.player)) === true) {
-        window.cancelAnimationFrame(this.intervalGame.bind(this));
-        window.cancelAnimationFrame(this.leftBubble.intervalBubble);
-    }
-};
-
-PangGame.prototype._collisionPlayerRightBubble = function () {
-    if ((this._collisionDetectionElements(this.rightBubble, this.player)) === true) {
-        window.cancelAnimationFrame(this.intervalGame.bind(this));
-        window.cancelAnimationFrame(this.rightBubble.intervalBubble);
-    }
-};
 
 PangGame.prototype._collisionBigBubbleAttack = function () {
     if ((this._collisionDetectionElements(this.bigBubble, this.attack)) === true) {
@@ -93,22 +74,36 @@ PangGame.prototype._collisionBigBubbleAttack = function () {
     }
 };
 
-PangGame.prototype._collisionLeftBubbleAttack = function () {
-    if ((this._collisionDetectionElements(this.leftBubble, this.attack)) === true) {
+PangGame.prototype._collisionSmallBubbleAttack = function (smallBubble) {
+    if ((this._collisionDetectionElements(smallBubble, this.attack)) === true) {
         clearInterval(this.attack.intervalAttack);
-        window.cancelAnimationFrame(this.leftBubble.intervalBubble);
+        window.cancelAnimationFrame(smallBubble.intervalBubble);
         this.attack.deleteAttack();
-        this.leftBubble.deleteBubble();
+        smallBubble.deleteBubble();
+        this.counterBubble --;
+        
+        if (this.counterBubble === 4 || this.counterBubble === 2){
+        this.bigBubble = new Bubble(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 100, 100, 1);
+        this.bigBubble.updatePosBubble();
+        }
     }
 };
 
-PangGame.prototype._collisionRightBubbleAttack = function () {
-    if ((this._collisionDetectionElements(this.rightBubble, this.attack)) === true) {
-        clearInterval(this.attack.intervalAttack);
-        window.cancelAnimationFrame(this.rightBubble.intervalBubble);
-        this.attack.deleteAttack();
-        this.rightBubble.deleteBubble();
+PangGame.prototype._statusGame = function (status) {
+    if(this.counterBubble === 0){
+        this._youWin();
     }
+    if(status === 'lose'){
+        this._youLose();
+    }
+};
+
+PangGame.prototype._youWin = function () {
+    alert('You win!! Congrats!!');
+};
+
+PangGame.prototype._youLose = function () {
+    alert('You lose.. L O S E R ! !');
 };
 
 PangGame.prototype._controlsKeys = function () {
@@ -132,12 +127,14 @@ PangGame.prototype._update = function () {
     this._drawAttack();
     this._drawPlayer();
     this._drawBigBubble();
-    this._drawBubbles();
+    this._drawsSmallBubbles(this.leftBubble);
+    this._drawsSmallBubbles(this.rightBubble);
     this._collisionBigBubbleAttack();
-    this._collisionLeftBubbleAttack();
-    this._collisionRightBubbleAttack();
-    this._collisionPlayerBigBubble();
-    this._collisionPlayerLeftBubble();
-    this._collisionPlayerRightBubble();
+    this._collisionSmallBubbleAttack(this.leftBubble);
+    this._collisionSmallBubbleAttack(this.rightBubble);
+    this._collisionPlayerBubbles(this.bigBubble);
+    this._collisionPlayerBubbles(this.leftBubble);
+    this._collisionPlayerBubbles(this.rightBubble);
+    this._statusGame();
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
 };
