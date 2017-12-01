@@ -60,22 +60,22 @@ Attack.prototype.deleteAttack = function () {
     this.intervalAttack = undefined;
 };
 
-function BigBubble(height, width) {
+function Bubble(height, width, x, y, x2, y2, speedX) {
     this.style = 'blue';
-    this.x = 50;
-    this.y = 50;
-    this.x2 = 100;
-    this.y2 = 100;
+    this.x = x;
+    this.y = y;
+    this.x2 = x2;
+    this.y2 = y2;
     //this.radius = 50;
-    this.speedX = 1;
+    this.speedX = speedX;
     this.speedY = 10;
     this.boardHeight = height;
     this.boardWidth = width;
     this.gravity = 0.15;
-    this.intervalBigBubble = undefined;
+    this.intervalBubble = undefined;
 }
 
-BigBubble.prototype.updatePosBigBubble = function () {
+Bubble.prototype.updatePosBubble = function () {
     this.speedY += this.gravity;
     this.x += this.speedX;
     this.y += this.speedY;
@@ -91,13 +91,13 @@ BigBubble.prototype.updatePosBigBubble = function () {
         this.speedY *= -1;
     }
 
-    this.intervalBigBubble = window.requestAnimationFrame(this.updatePosBigBubble.bind(this));
+    this.intervalBubble = window.requestAnimationFrame(this.updatePosBubble.bind(this));
 };
 
-BigBubble.prototype.deleteBigBubble = function () {
+Bubble.prototype.deleteBubble = function () {
     this.style = '';
     this.x = 0;
     this.y = 0;
     this.x2 = 0;
-    this.intervalBigBubble = undefined;
+    this.intervalBubble = undefined;
 };
