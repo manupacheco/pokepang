@@ -25,7 +25,7 @@ function Attack(height) {
     this.y = height;
     this.x2 = 0;
     this.y2 = 0;
-    this.intervalId = undefined;
+    this.intervalAttack = undefined;
 }
 
 Attack.prototype.updateAttack = function (x, x2, height, width) {
@@ -35,48 +35,69 @@ Attack.prototype.updateAttack = function (x, x2, height, width) {
     this.x2 = x2 - 20;
     this.y2 = height + x2;
 
-    this.intervalId = clearInterval(this.intervalId);;
-    this.intervalId = setInterval(function () {
-        console.log(this.y);
-        this.y = this.y - 5;
+    this.intervalAttack = clearInterval(this.intervalAttack);
+    this.intervalAttack = setInterval(function () {
+        this.y = this.y - 2;
 
-        if (this.y === 0) {
-            clearInterval(this.intervalId);
+        if (this.y === -2) {
+            clearInterval(this.intervalAttack);
+            this.style = '';
+            this.x = 0;
+            this.y = height;
+            this.x2 = 0;
+            this.y2 = 0;
+            this.intervalAttack = undefined;
         }
-    }.bind(this), 25);
+    }.bind(this), 10);
+};
+
+Attack.prototype.deleteAttack = function () {
+    this.style = '';
+    this.x = 0;
+    this.y = height;
+    this.x2 = 0;
+    this.y2 = 0;
+    this.intervalAttack = undefined;
 };
 
 function BigBubble(height, width) {
     this.style = 'blue';
-    this.x = 100;
-    this.y = 100;
-    this.radius = 50;
-    this.speedX = 2;
-    this.speedY = 5;
+    this.x = 50;
+    this.y = 50;
+    this.x2 = 100;
+    this.y2 = 100;
+    //this.radius = 50;
+    this.speedX = 1;
+    this.speedY = 10;
     this.boardHeight = height;
     this.boardWidth = width;
-    this.gravity = 0.04;
-    this.intervalId = undefined; 
+    this.gravity = 0.15;
+    this.intervalBigBubble = undefined;
 }
 
 BigBubble.prototype.updatePosBigBubble = function () {
-        this.speedY += this.gravity;
-        this.x += this.speedX;
-        this.y += this.speedY;
-        if ((this.x + this.speedX) > (this.boardWidth - this.radius) || (this.x + this.speedX) < (0 + this.radius)){
-            console.log('crash x');
-            this.speedX *= -1;
-        }
-        if ((this.y + this.speedY) > (this.boardHeight - this.radius)){
-            console.log('crash down');
-            this.speedY = 5;
-            this.speedY *= -1;
-        }
-        if ((this.y + this.speedY) < (0 + this.radius)){
-            console.log('crash up');
-            this.speedY = -2;
-            this.speedY *= -1;
-        }
+    this.speedY += this.gravity;
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if ((this.x + this.speedX) > (this.boardWidth - this.x2) || (this.x + this.speedX) < (0)) {
+        this.speedX *= -1;
+    }
+    if ((this.y + this.speedY) > (this.boardHeight - this.x2)) {
+        this.speedY = 10;
+        this.speedY *= -1;
+    }
+    if ((this.y + this.speedY) < 0) {
+        this.speedY = -10;
+        this.speedY *= -1;
+    }
 
-        this.intervalId = window.requestAnimationFrame(this.updatePosBigBubble.bind(this));
+    this.intervalBigBubble = window.requestAnimationFrame(this.updatePosBigBubble.bind(this));
+};
+
+BigBubble.prototype.deleteBigBubble = function () {
+    this.style = '';
+    this.x = 0;
+    this.y = 0;
+    this.x2 = 0;
+    this.intervalBigBubble = undefined;
 };
