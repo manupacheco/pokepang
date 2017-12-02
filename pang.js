@@ -1,11 +1,11 @@
-var height = 500;
-var width = 800;
+var height = 600;
+var width = 1200;
 
 function PangGame(options) {
     this.ctx = document.getElementById('game-board').getContext('2d');
     this.player = new Player();
     this.attack = new Attack(height);
-    this.bigBubble = new Bubble(height, width, 50, 50, 100, 100, 1);
+    this.bigBubble = new Bubble(height, width, 50, 50, 100, 100, 1, 5);
     this.rightBubble = new Bubble();
     this.leftBubble = new Bubble();
     this.counterBubble = 6;
@@ -16,11 +16,12 @@ PangGame.prototype.ini = function () {
     this._controlsKeys();
     this._update();
     this.bigBubble.updatePosBubble();
+    this.player._updateFramePlayer();
 };
 
 PangGame.prototype._drawPlayer = function () {
-    this.ctx.fillStyle = 'green';
-    this.ctx.fillRect(this.player.x, this.player.y, this.player.x2, this.player.y2);
+    //this.player._updateFramePlayer();
+    this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame,this.player.x, this.player.y, this.player.x2, this.player.y2);
 };
 
 PangGame.prototype._drawAttack = function () {
@@ -55,8 +56,8 @@ PangGame.prototype._collisionPlayerBubbles = function (bubble) {
 
 PangGame.prototype._collisionBigBubbleAttack = function () {
     if ((this._collisionDetectionElements(this.bigBubble, this.attack)) === true) {
-        this.rightBubble = new Bubble(height, width, this.bigBubble.x + 25, this.bigBubble.y, 50, 50, 1);
-        this.leftBubble = new Bubble(height, width, this.bigBubble.x + 25, this.bigBubble.y, 50, 50, -1);
+        this.rightBubble = new Bubble(height, width, this.bigBubble.x + 25, this.bigBubble.y, 50, 50, 1, -5);
+        this.leftBubble = new Bubble(height, width, this.bigBubble.x + 25, this.bigBubble.y, 50, 50, -1, -5);
         this.leftBubble.updatePosBubble();
         this.rightBubble.updatePosBubble();
 
@@ -76,7 +77,7 @@ PangGame.prototype._collisionSmallBubbleAttack = function (smallBubble) {
         this.counterBubble --;
         
         if (this.counterBubble === 4 || this.counterBubble === 2){
-        this.bigBubble = new Bubble(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 100, 100, 1);
+        this.bigBubble = new Bubble(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 100, 100, 1, 5);
         this.bigBubble.updatePosBubble();
         }
     }
@@ -135,7 +136,6 @@ PangGame.prototype._update = function () {
     this.ctx.clearRect(0, 0, width, height);
     this._drawAttack();
     this._drawPlayer();
-    //this._drawBigBubble();
     this._drawsBubbles(this.bigBubble);
     this._drawsBubbles(this.leftBubble);
     this._drawsBubbles(this.rightBubble);

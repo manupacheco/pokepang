@@ -1,10 +1,30 @@
 function Player() {
+    this.character = document.getElementById('source');
     this.x2 = 50;
     this.y2 = 50;
     this.x = (width / 2) - this.x2;
     this.y = height - this.y2;
     this.speed = 25;
+    
+    // PIKACHU
+    this.spriteWidth = 250;
+    this.spriteHeight = 250;
+    this.cols = 5;
+    this.rows = 5;
+    this.widthFrame = this.spriteWidth / this.cols;
+    this.heightFrame = this.spriteHeight / this.rows;
+    this.spriteX = 0;
+    this.spriteY = 0;
+    this.currentFrame = 0;
+    this.frameCount = 4;
 }
+
+Player.prototype._updateFramePlayer = function () {
+    this.setInterval = setInterval(function(){
+        this.currentFrame = ++this.currentFrame % this.frameCount;
+        this.spriteX = this.currentFrame * this.widthFrame;
+    }.bind(this),100);
+};
 
 Player.prototype.goLeft = function () {
     if (this.x !== 0) {
@@ -59,7 +79,7 @@ Attack.prototype.deleteAttack = function () {
     this.intervalAttack = undefined;
 };
 
-function Bubble(height, width, x, y, x2, y2, speedX) {
+function Bubble(height, width, x, y, x2, y2, speedX, speedY) {
     this.style = 'blue';
     this.x = x;
     this.y = y;
@@ -67,7 +87,7 @@ function Bubble(height, width, x, y, x2, y2, speedX) {
     this.y2 = y2;
     //this.radius = 50;
     this.speedX = speedX;
-    this.speedY = 10;
+    this.speedY = speedY;
     this.boardHeight = height;
     this.boardWidth = width;
     this.gravity = 0.15;
