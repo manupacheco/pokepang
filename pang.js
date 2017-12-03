@@ -3,9 +3,10 @@ var width = 1200;
 
 function PangGame(options) {
     this.ctx = document.getElementById('game-board').getContext('2d');
-    this.player = new Player();
+    this.board = document.getElementById('board');
+    this.player = new Player(pikachu);
     this.attack = new Attack(height);
-    this.bigBubble = new Bubble(height, width, 50, 50, 100, 100, 1, 5);
+    this.bigBubble = new Bubble(height, width, 50, 50, 65, 65, 1, 5);
     this.rightBubble = new Bubble();
     this.leftBubble = new Bubble();
     this.counterBubble = 6;
@@ -16,29 +17,32 @@ PangGame.prototype.ini = function () {
     this._controlsKeys();
     this._update();
     this.bigBubble.updatePosBubble();
-    this.player._updateFramePlayer();
+    this.bigBubble.updateFrameBubble();
+    this.player.updateFramePlayer();
+};
+
+PangGame.prototype._drawBoard = function () {
+    this.ctx.drawImage(this.board, 0, 0, width, height);
 };
 
 PangGame.prototype._drawPlayer = function () {
-    //this.player._updateFramePlayer();
     this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame,this.player.x, this.player.y, this.player.x2, this.player.y2);
 };
 
 PangGame.prototype._drawAttack = function () {
-    this.ctx.fillStyle = this.attack.style;
-    this.ctx.fillRect(this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
+    this.ctx.drawImage(this.attack.image, this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
 };
 
 PangGame.prototype._drawsBubbles = function (bubble) {
-    this.ctx.fillStyle = bubble.style;
-    this.ctx.beginPath();
-    this.ctx.fillRect(bubble.x, bubble.y, bubble.x2, bubble.y2);
-    this.ctx.closePath();
-    this.ctx.fill();
+    this.ctx.drawImage(bubble.pokeball, bubble.spriteX, bubble.spriteY, bubble.widthFrame, bubble.heightFrame, bubble.x, bubble.y, bubble.x2, bubble.y2);
 };
 
 PangGame.prototype._collisionDetectionElements = function (elementOne, elementTwo) {
-    if (elementOne.x < elementTwo.x + elementTwo.x2 && elementOne.x + elementOne.x2 > elementTwo.x && elementOne.y < elementTwo.y + elementTwo.y2 && elementOne.y + elementOne.y2 > elementTwo.y) {
+    elementOneX = elementOne.x +20;
+    elementOneY = elementOne.y +20;
+    elementOneX2 = elementOne.x2 -40;
+    elementOneY2 = elementOne.y2 -40;
+    if (elementOneX < elementTwo.x + elementTwo.x2 && elementOneX + elementOneX2 > elementTwo.x && elementOneY < elementTwo.y + elementTwo.y2 && elementOneY + elementOneY2 > elementTwo.y) {
         return true;
     }
 };
@@ -60,6 +64,8 @@ PangGame.prototype._collisionBigBubbleAttack = function () {
         this.leftBubble = new Bubble(height, width, this.bigBubble.x + 25, this.bigBubble.y, 50, 50, -1, -5);
         this.leftBubble.updatePosBubble();
         this.rightBubble.updatePosBubble();
+        this.leftBubble.updateFrameBubble();
+        this.rightBubble.updateFrameBubble();
 
         clearInterval(this.attack.intervalAttack);
         window.cancelAnimationFrame(this.bigBubble.intervalBubble);
@@ -77,8 +83,9 @@ PangGame.prototype._collisionSmallBubbleAttack = function (smallBubble) {
         this.counterBubble --;
         
         if (this.counterBubble === 4 || this.counterBubble === 2){
-        this.bigBubble = new Bubble(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 100, 100, 1, 5);
+        this.bigBubble = new Bubble(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, 1, 5);
         this.bigBubble.updatePosBubble();
+        this.bigBubble.updateFrameBubble();
         }
     }
 };
@@ -105,10 +112,12 @@ PangGame.prototype._controlsKeys = function () {
     document.onkeydown = function (e) {
         switch (e.keyCode) {
             case 37:
-                this.player.goLeft();
+                this.player.goLeft(pikachu);
+                this.player.updateFramePlayer();
                 break;
             case 39:
-                this.player.goRight();
+                this.player.goRight(pikachu);
+                this.player.updateFramePlayer();
                 break;
             case 32:
                 this.attack.updateAttack(this.player.x, this.player.x2, height, width);
@@ -130,10 +139,24 @@ PangGame.prototype._controlsKeys = function () {
                 break;
         }
     }.bind(this);
+
+    document.onkeyup = function (e) {
+        switch (e.keyCode) {
+            case 37:
+                this.player.goStill(pikachu);
+                this.player.updateFramePlayer();
+                break;
+            case 39:
+                this.player.goStill(pikachu);
+                this.player.updateFramePlayer();
+                break;
+        }
+    }.bind(this);
 };
 
 PangGame.prototype._update = function () {
     this.ctx.clearRect(0, 0, width, height);
+    this._drawBoard();
     this._drawAttack();
     this._drawPlayer();
     this._drawsBubbles(this.bigBubble);
