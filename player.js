@@ -1,3 +1,13 @@
+// imgs
+var imgBoard = new Image (); imgBoard.src = 'img/board.jpg';
+var imgPokeball = new Image (); imgPokeball.src = 'img/pokeballs.png';
+var imgPikachuStill = new Image(); imgPikachuStill.src = 'img/pikachu.png';
+var imgPikachuLeft = new Image(); imgPikachuLeft.src = 'img/pikachu_run_left.png';
+var imgPikachuRight = new Image(); imgPikachuRight.src = 'img/pikachu_run_right.png';
+var imgPikachuAttack = new Image(); imgPikachuAttack.src = 'img/thunder.png';
+
+// elements
+
 function Player(character) {
     this.x2 = 100;
     this.y2 = 100;
@@ -5,7 +15,7 @@ function Player(character) {
     this.y = height - this.y2;
     this.speed = 25;
     this.setInterval = undefined;
-    
+
     this.character = character.still.character;
     this.widthFrame = character.still.widthFrame;
     this.heightFrame = character.still.heightFrame;
@@ -19,7 +29,7 @@ function Player(character) {
 var pikachu = {
     speed: 25,
     still: {
-        character: document.getElementById('pikachu'),
+        character: imgPikachuStill,
         spriteWidth: 273,
         spriteHeight: 40,
         cols: 7,
@@ -33,7 +43,7 @@ var pikachu = {
         speedFrame: 200,
     },
     left: {
-        character: document.getElementById('pikachu_run_left'),
+        character: imgPikachuLeft,
         spriteWidth: 288,
         spriteHeight: 37,
         cols: 6,
@@ -47,7 +57,7 @@ var pikachu = {
         speedFrame: 20,
     },
     right: {
-        character: document.getElementById('pikachu_run_right'),
+        character: imgPikachuRight,
         spriteWidth: 288,
         spriteHeight: 37,
         cols: 6,
@@ -70,7 +80,7 @@ Player.prototype.updateFramePlayer = function () {
     }.bind(this), this.speedFrame);
 };
 
-Player.prototype._changeMoveFrame = function(move) { 
+Player.prototype._changeMoveFrame = function (move) {
     this.character = move.character;
     this.widthFrame = move.widthFrame;
     this.heightFrame = move.heightFrame;
@@ -103,7 +113,7 @@ Player.prototype.goRight = function (character) {
 };
 
 function Attack(height) {
-    this.image = document.getElementById('thunder');
+    this.image = imgPikachuAttack;
     this.x = 0;
     this.y = height;
     this.x2 = 0;
@@ -141,8 +151,7 @@ Attack.prototype.deleteAttack = function () {
 };
 
 function Bubble(height, width, x, y, x2, y2, speedX, speedY) {
-    this.style = 'blue';
-    this.pokeball = document.getElementById('pokeballs');
+    this.pokeball = imgPokeball;
     this.x = x;
     this.y = y;
     this.x2 = x2;

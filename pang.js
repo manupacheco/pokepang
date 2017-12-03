@@ -3,7 +3,7 @@ var width = 1200;
 
 function PangGame(options) {
     this.ctx = document.getElementById('game-board').getContext('2d');
-    this.board = document.getElementById('board');
+    this.board = imgBoard;
     this.player = new Player(pikachu);
     this.attack = new Attack(height);
     this.bigBubble = new Bubble(height, width, 50, 50, 65, 65, 1, 5);
@@ -26,7 +26,7 @@ PangGame.prototype._drawBoard = function () {
 };
 
 PangGame.prototype._drawPlayer = function () {
-    this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame,this.player.x, this.player.y, this.player.x2, this.player.y2);
+    this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame, this.player.x, this.player.y, this.player.x2, this.player.y2);
 };
 
 PangGame.prototype._drawAttack = function () {
@@ -38,10 +38,10 @@ PangGame.prototype._drawsBubbles = function (bubble) {
 };
 
 PangGame.prototype._collisionDetectionElements = function (elementOne, elementTwo) {
-    elementOneX = elementOne.x +20;
-    elementOneY = elementOne.y +20;
-    elementOneX2 = elementOne.x2 -40;
-    elementOneY2 = elementOne.y2 -40;
+    elementOneX = elementOne.x + 20;
+    elementOneY = elementOne.y + 20;
+    elementOneX2 = elementOne.x2 - 40;
+    elementOneY2 = elementOne.y2 - 40;
     if (elementOneX < elementTwo.x + elementTwo.x2 && elementOneX + elementOneX2 > elementTwo.x && elementOneY < elementTwo.y + elementTwo.y2 && elementOneY + elementOneY2 > elementTwo.y) {
         return true;
     }
@@ -80,21 +80,21 @@ PangGame.prototype._collisionSmallBubbleAttack = function (smallBubble) {
         window.cancelAnimationFrame(smallBubble.intervalBubble);
         this.attack.deleteAttack();
         smallBubble.deleteBubble();
-        this.counterBubble --;
-        
-        if (this.counterBubble === 4 || this.counterBubble === 2){
-        this.bigBubble = new Bubble(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, 1, 5);
-        this.bigBubble.updatePosBubble();
-        this.bigBubble.updateFrameBubble();
+        this.counterBubble--;
+
+        if (this.counterBubble === 4 || this.counterBubble === 2) {
+            this.bigBubble = new Bubble(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, 1, 3);
+            this.bigBubble.updatePosBubble();
+            this.bigBubble.updateFrameBubble();
         }
     }
 };
 
 PangGame.prototype._statusGame = function (status) {
-    if(this.counterBubble === 0){
+    if (this.counterBubble === 0) {
         this._youWin();
     }
-    if(status === 'lose'){
+    if (status === 'lose') {
         this._youLose();
     }
 
@@ -124,13 +124,13 @@ PangGame.prototype._controlsKeys = function () {
                 break;
             case 90: //z
                 console.log('pause');
-                if(this.intervalGame != undefined){
+                if (this.intervalGame != undefined) {
                     window.cancelAnimationFrame(this.intervalGame);
                     window.cancelAnimationFrame(this.bigBubble.intervalBubble);
                     window.cancelAnimationFrame(this.leftBubble.intervalBubble);
                     window.cancelAnimationFrame(this.rightBubble.intervalBubble);
                     this.intervalGame = undefined;
-                }else{
+                } else {
                     this._update();
                     this.bigBubble.updatePosBubble();
                     this.leftBubble.updatePosBubble();
