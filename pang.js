@@ -121,6 +121,7 @@ PangGame.prototype._controlsKeys = function () {
                 break;
             case 32:
                 this.attack.updateAttack(this.player.x, this.player.x2, height, width);
+                this.player.goAttack(pikachu);
                 break;
             case 90: //z
                 console.log('pause');
@@ -147,6 +148,10 @@ PangGame.prototype._controlsKeys = function () {
                 this.player.updateFramePlayer();
                 break;
             case 39:
+                this.player.goStill(pikachu);
+                this.player.updateFramePlayer();
+                break;
+            case 32:
                 this.player.goStill(pikachu);
                 this.player.updateFramePlayer();
                 break;

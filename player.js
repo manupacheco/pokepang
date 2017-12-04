@@ -4,7 +4,8 @@ var imgPokeball = new Image (); imgPokeball.src = 'img/pokeballs.png';
 var imgPikachuStill = new Image(); imgPikachuStill.src = 'img/pikachu.png';
 var imgPikachuLeft = new Image(); imgPikachuLeft.src = 'img/pikachu_run_left.png';
 var imgPikachuRight = new Image(); imgPikachuRight.src = 'img/pikachu_run_right.png';
-var imgPikachuAttack = new Image(); imgPikachuAttack.src = 'img/thunder.png';
+var imgPikachuAttack = new Image(); imgPikachuAttack.src = 'img/pikachu_attack.png';
+var imgPikachuThunder = new Image(); imgPikachuThunder.src = 'img/thunder.png';
 
 // elements
 
@@ -13,7 +14,7 @@ function Player(character) {
     this.y2 = 100;
     this.x = (width / 2) - this.x2;
     this.y = height - this.y2;
-    this.speed = 25;
+    this.speed = character.speed;
     this.setInterval = undefined;
 
     this.character = character.still.character;
@@ -69,7 +70,21 @@ var pikachu = {
         currentFrame: 0,
         frameCount: 6,
         speedFrame: 20,
-    }
+    },
+    attack: {
+        character: imgPikachuAttack,
+        spriteWidth: 210,
+        spriteHeight: 37,
+        cols: 5,
+        rows: 1,
+        widthFrame: 42,
+        heightFrame: 37,
+        spriteX: 0,
+        spriteY: 0,
+        currentFrame: 0,
+        frameCount: 5,
+        speedFrame: 0,
+    },
 };
 
 Player.prototype.updateFramePlayer = function () {
@@ -112,8 +127,12 @@ Player.prototype.goRight = function (character) {
     }
 };
 
+Player.prototype.goAttack = function (character){
+    this._changeMoveFrame(character.attack);
+};
+
 function Attack(height) {
-    this.image = imgPikachuAttack;
+    this.image = imgPikachuThunder;
     this.x = 0;
     this.y = height;
     this.x2 = 0;
