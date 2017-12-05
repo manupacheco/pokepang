@@ -41,7 +41,7 @@ Player.prototype.goStill = function (character) {
 };
 
 Player.prototype.goLeft = function (character) {
-    if (this.x !== 0) {
+    if (this.x > 0) {
         this.x = this.x - this.speed;
         //animation
         this._changeMoveFrame(character.left);
@@ -49,14 +49,14 @@ Player.prototype.goLeft = function (character) {
 };
 
 Player.prototype.goRight = function (character) {
-    if (this.x !== (width - this.x2)) {
+    if (this.x < (width - this.x2)) {
         this.x = this.x + this.speed;
         //animation
         this._changeMoveFrame(character.right);
     }
 };
 
-Player.prototype.goAttack = function (character){
+Player.prototype.goAttack = function (character) {
     this._changeMoveFrame(character.attack);
 };
 
@@ -67,6 +67,17 @@ function Attack(height) {
     this.x2 = 0;
     this.y2 = 0;
     this.intervalAttack = undefined;
+    //animation
+    this.spriteWidth = 81;
+    this.spriteHeight = 614;
+    this.cols = 2;
+    this.rows = 1;
+    this.widthFrame = this.spriteWidth / this.cols;
+    this.heightFrame = this.spriteHeight / this.rows;
+    this.spriteX = 0;
+    this.spriteY = 0;
+    this.currentFrame = 0;
+    this.frameCount = 2;
 }
 
 Attack.prototype.updateAttack = function (x, x2, height, width) {
@@ -77,8 +88,10 @@ Attack.prototype.updateAttack = function (x, x2, height, width) {
 
     this.intervalAttack = clearInterval(this.intervalAttack);
     this.intervalAttack = setInterval(function () {
-        this.y = this.y - 2;
-        if (this.y === -2) {
+        this.y = this.y - 15;
+        this.currentFrame = ++this.currentFrame % this.frameCount;
+        this.spriteX = this.currentFrame * this.widthFrame;
+        if (this.y < -15) {
             clearInterval(this.intervalAttack);
             this.x = 0;
             this.y = height;
@@ -86,7 +99,7 @@ Attack.prototype.updateAttack = function (x, x2, height, width) {
             this.y2 = 0;
             this.intervalAttack = undefined;
         }
-    }.bind(this), 5);
+    }.bind(this), 100);
 };
 
 Attack.prototype.deleteAttack = function () {

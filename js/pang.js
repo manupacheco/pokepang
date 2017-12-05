@@ -30,7 +30,7 @@ PangGame.prototype._drawPlayer = function () {
 };
 
 PangGame.prototype._drawAttack = function () {
-    this.ctx.drawImage(this.attack.image, this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
+    this.ctx.drawImage(this.attack.image, this.attack.spriteX, this.attack.spriteY, this.attack.widthFrame, this.attack.heightFrame, this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
 };
 
 PangGame.prototype._drawsBubbles = function (bubble) {
@@ -97,7 +97,6 @@ PangGame.prototype._statusGame = function (status) {
     if (status === 'lose') {
         this._youLose();
     }
-
 };
 
 PangGame.prototype._youWin = function () {
