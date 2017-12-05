@@ -1,10 +1,19 @@
 var height = 600;
 var width = 1200;
 
-function PangGame(options) {
+function PangGame(characterSelect) {
     this.ctx = document.getElementById('game-board').getContext('2d');
     this.board = imgBoard;
-    this.player = new Player(pikachu);
+    this.character = function () {
+        switch (characterSelect) {
+            case "pikachu":
+                return pikachu;
+            case "otro":
+                return "otro";
+        }
+    };
+    console.log(characterSelect);
+    this.player = new Player(this.character());
     this.attack = new Attack(height);
     this.bigBubble = new Bubble(height, width, 50, 50, 65, 65, 1, 5);
     this.rightBubble = new Bubble();
