@@ -35,7 +35,7 @@ var pikachu = {
     spriteY: 0,
     currentFrame: 0,
     frameCount: 6,
-    speedFrame: 100,
+    speedFrame: 50,
   },
   right: {
     character: imgPikachuRight,
@@ -49,7 +49,7 @@ var pikachu = {
     spriteY: 0,
     currentFrame: 0,
     frameCount: 6,
-    speedFrame: 100,
+    speedFrame: 50,
   },
   attack: {
     character: imgPikachuAttack,
@@ -63,6 +63,6 @@ var pikachu = {
     spriteY: 0,
     currentFrame: 0,
     frameCount: 5,
-    speedFrame: 100,
+    speedFrame: 50,
   },
 };

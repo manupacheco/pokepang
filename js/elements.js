@@ -15,6 +15,7 @@ function Player(character) {
     this.currentFrame = character.still.currentFrame;
     this.frameCount = character.still.frameCount;
     this.speedFrame = character.still.speedFrame;
+    this.updateFramePlayer();
 }
 
 Player.prototype.updateFramePlayer = function () {
@@ -36,8 +37,7 @@ Player.prototype._changeMoveFrame = function (move) {
     this.speedFrame = move.speedFrame;
 };
 
-Player.prototype.goStill = function (character) {
-    //animation
+Player.prototype.goStill = function (character) { 
     this._changeMoveFrame(character.still);
 };
 
@@ -118,7 +118,7 @@ Attack.prototype.deleteAttack = function () {
     this.intervalAttack = undefined;
 };
 
-function Bubble(height, width, x, y, x2, y2, speedX, speedY) {
+function Ball(height, width, x, y, x2, y2, speedX, speedY) {
     this.pokeball = imgPokeball;
     this.x = x;
     this.y = y;
@@ -129,7 +129,7 @@ function Bubble(height, width, x, y, x2, y2, speedX, speedY) {
     this.boardHeight = height;
     this.boardWidth = width;
     this.gravity = 0.15;
-    this.intervalBubble = undefined;
+    this.intervalBall = undefined;
     //animation
     this.spriteWidth = 185;
     this.spriteHeight = 22;
@@ -141,16 +141,18 @@ function Bubble(height, width, x, y, x2, y2, speedX, speedY) {
     this.spriteY = 0;
     this.currentFrame = 0;
     this.frameCount = 8;
+    this.updatePosBall();
+    this.updateFrameBall();
 }
 
-Bubble.prototype.updateFrameBubble = function () {
-    this.setInterval = setInterval(function () {
+Ball.prototype.updateFrameBall = function () {
+    this.intervalBall = setInterval(function () {
         this.currentFrame = ++this.currentFrame % this.frameCount;
         this.spriteX = this.currentFrame * this.widthFrame;
     }.bind(this), 150);
 };
 
-Bubble.prototype.updatePosBubble = function () {
+Ball.prototype.updatePosBall = function () {
     this.speedY += this.gravity;
     this.x += this.speedX;
     this.y += this.speedY;
@@ -166,13 +168,5 @@ Bubble.prototype.updatePosBubble = function () {
         this.speedY *= -1;
     }
 
-    this.intervalBubble = window.requestAnimationFrame(this.updatePosBubble.bind(this));
-};
-
-Bubble.prototype.deleteBubble = function () {
-    this.style = '';
-    this.x = 0;
-    this.y = 0;
-    this.x2 = 0;
-    this.intervalBubble = undefined;
+    this.intervalBall = window.requestAnimationFrame(this.updatePosBall.bind(this));
 };
