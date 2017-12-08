@@ -8,7 +8,7 @@ var imgPikachuAttack = new Image(); imgPikachuAttack.src = 'img/pikachu_attack.p
 var imgPikachuThunder = new Image(); imgPikachuThunder.src = 'img/thunder.png';
 
 var pikachu = {
-  speed: 25,
+  speed: 5,
   still: {
     character: imgPikachuStill,
     spriteWidth: 273,
@@ -35,7 +35,7 @@ var pikachu = {
     spriteY: 0,
     currentFrame: 0,
     frameCount: 6,
-    speedFrame: 20,
+    speedFrame: 100,
   },
   right: {
     character: imgPikachuRight,
@@ -49,7 +49,7 @@ var pikachu = {
     spriteY: 0,
     currentFrame: 0,
     frameCount: 6,
-    speedFrame: 20,
+    speedFrame: 100,
   },
   attack: {
     character: imgPikachuAttack,
@@ -63,6 +63,6 @@ var pikachu = {
     spriteY: 0,
     currentFrame: 0,
     frameCount: 5,
-    speedFrame: 0,
+    speedFrame: 100,
   },
 };

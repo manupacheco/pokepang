@@ -10,7 +10,7 @@ $(document).ready(function () {
     $('#btn-start').on('click', function () {
         $('.starting-screen').addClass('disable');
         $('canvas').removeClass('disable');
-        pang.ini();
+        pang.init();
     });
 
 });

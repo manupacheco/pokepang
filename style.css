@@ -51,6 +51,18 @@ canvas {
     background-size: cover;
 }
 
+.loser-screen {
+    height: 600px;
+    width: 1200px;
+    border: 5px solid rgb(46, 46, 46);
+    background-color: rgb(255, 130, 58);
+    z-index: 100;
+    font-family: 'Press Start 2P';
+    font-size: 28px;
+    text-align: center;
+    align-items: center;
+}
+
 #game-options {
     display: flex;
     flex-direction: row;

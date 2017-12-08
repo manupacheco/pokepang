@@ -1,33 +1,40 @@
 var height = 600;
 var width = 1200;
+var keys = [];
 
 function PangGame(characterSelect) {
     this.ctx = document.getElementById('game-board').getContext('2d');
     this.board = imgBoard;
-    this.character = function () {
-        switch (characterSelect) {
-            case "pikachu":
-                return pikachu;
-            case "otro":
-                return "otro";
-        }
-    };
+    this.character = this._selectCharacter(characterSelect);
     console.log(characterSelect);
-    this.player = new Player(this.character());
+    this.player = new Player(this.character);
     this.attack = new Attack(height);
+    this.bubbles = [];
+    this.counterBubble = 6;
+    this.intervalGame = undefined;
+
     this.bigBubble = new Bubble(height, width, 50, 50, 65, 65, 1, 5);
     this.rightBubble = new Bubble();
     this.leftBubble = new Bubble();
-    this.counterBubble = 6;
-    this.intervalGame = undefined;
 }
 
-PangGame.prototype.ini = function () {
-    this._controlsKeys();
+PangGame.prototype._selectCharacter = function (selection) {
+    switch (selection) {
+        case "pikachu":
+            return pikachu;
+        case "otro":
+            return "otro";
+        case "otro":
+            return "otro";
+    }
+};
+
+PangGame.prototype.init = function () {
+    // this._controlsKeys();
     this._update();
+    this.player.updateFramePlayer();
     this.bigBubble.updatePosBubble();
     this.bigBubble.updateFrameBubble();
-    this.player.updateFramePlayer();
 };
 
 PangGame.prototype._drawBoard = function () {
@@ -113,61 +120,53 @@ PangGame.prototype._youWin = function () {
 };
 
 PangGame.prototype._youLose = function () {
-    alert('You lose.. L O S E R ! !');
+    //alert('You lose.. L O S E R ! !');
+    $('canvas').addClass('disable');
+    $('.loser-screen').removeClass('disable');
 };
 
 PangGame.prototype._controlsKeys = function () {
-    document.onkeydown = function (e) {
-        switch (e.keyCode) {
-            case 37:
-                this.player.goLeft(pikachu);
-                this.player.updateFramePlayer();
-                break;
-            case 39:
-                this.player.goRight(pikachu);
-                this.player.updateFramePlayer();
-                break;
-            case 32:
-                this.attack.updateAttack(this.player.x, this.player.x2, height, width);
-                this.player.goAttack(pikachu);
-                break;
-            case 90: //z
-                console.log('pause');
-                if (this.intervalGame != undefined) {
-                    window.cancelAnimationFrame(this.intervalGame);
-                    window.cancelAnimationFrame(this.bigBubble.intervalBubble);
-                    window.cancelAnimationFrame(this.leftBubble.intervalBubble);
-                    window.cancelAnimationFrame(this.rightBubble.intervalBubble);
-                    this.intervalGame = undefined;
-                } else {
-                    this._update();
-                    this.bigBubble.updatePosBubble();
-                    this.leftBubble.updatePosBubble();
-                    this.rightBubble.updatePosBubble();
-                }
-                break;
-        }
-    }.bind(this);
+    window.addEventListener("keydown", function (e) {
+        keys[e.keyCode] = true;
+    });
+    window.addEventListener("keyup", function (e) {
+        keys[e.keyCode] = false;
+        this.player.goStill(this.character);
+        this.player.direction = '';
+    }.bind(this));
 
-    document.onkeyup = function (e) {
-        switch (e.keyCode) {
-            case 37:
-                this.player.goStill(pikachu);
-                this.player.updateFramePlayer();
-                break;
-            case 39:
-                this.player.goStill(pikachu);
-                this.player.updateFramePlayer();
-                break;
-            case 32:
-                this.player.goStill(pikachu);
-                this.player.updateFramePlayer();
-                break;
+    if (keys[37]) {
+        this.player.goLeft(this.character);
+    }
+    if (keys[39]) {
+        this.player.goRight(this.character);
+    }
+    if (keys[37] && keys[39]) {
+        this.player.goStill(this.character);
+    }
+    if (keys[32]) {
+        this.attack.updateAttack(this.player.x, this.player.x2, height, width);
+        this.player.goAttack(this.character);
+    }
+    if (keys[90]) {
+        console.log('pause');
+        if (this.intervalGame != undefined) {
+            window.cancelAnimationFrame(this.intervalGame);
+            window.cancelAnimationFrame(this.bigBubble.intervalBubble);
+            window.cancelAnimationFrame(this.leftBubble.intervalBubble);
+            window.cancelAnimationFrame(this.rightBubble.intervalBubble);
+            this.intervalGame = undefined;
+        } else {
+            this._update();
+            this.bigBubble.updatePosBubble();
+            this.leftBubble.updatePosBubble();
+            this.rightBubble.updatePosBubble();
         }
-    }.bind(this);
+    }
 };
 
 PangGame.prototype._update = function () {
+    this._controlsKeys();
     this.ctx.clearRect(0, 0, width, height);
     this._drawBoard();
     this._drawAttack();

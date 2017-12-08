@@ -4,6 +4,7 @@ function Player(character) {
     this.x = (width / 2) - this.x2;
     this.y = height - this.y2;
     this.speed = character.speed;
+    this.direction = '';
     this.setInterval = undefined;
 
     this.character = character.still.character;
@@ -41,19 +42,25 @@ Player.prototype.goStill = function (character) {
 };
 
 Player.prototype.goLeft = function (character) {
-    if (this.x > 0) {
+    if(this.direction != 'left'){
         this.x = this.x - this.speed;
-        //animation
         this._changeMoveFrame(character.left);
     }
+    if (this.x > 0) {
+        this.x = this.x - this.speed;
+    }
+    this.direction = 'left';
 };
 
 Player.prototype.goRight = function (character) {
-    if (this.x < (width - this.x2)) {
+    if (this.direction != 'right') {
         this.x = this.x + this.speed;
-        //animation
         this._changeMoveFrame(character.right);
     }
+    if (this.x < (width - this.x2)) {
+        this.x = this.x + this.speed;
+    }
+    this.direction = 'right';
 };
 
 Player.prototype.goAttack = function (character) {
