@@ -9,7 +9,7 @@ function PangGame(characterSelect) {
     this.player = new Player(this.character);
     this.attack = new Attack(height);
     this.balls = [];
-    this.counterBall = 6;
+    this.counterBall = 10;
     this.intervalGame = undefined;
 }
 
@@ -29,10 +29,10 @@ PangGame.prototype.init = function () {
     this.balls.push(new Ball(height, width, 50, 50, 65, 65, 1, 5));
 };
 
-PangGame.prototype.drawElements =function () {
+PangGame.prototype._drawElements = function () {
     this.ctx.drawImage(this.board, 0, 0, width, height);
-    this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame, this.player.x, this.player.y, this.player.x2, this.player.y2);
     this.ctx.drawImage(this.attack.image, this.attack.spriteX, this.attack.spriteY, this.attack.widthFrame, this.attack.heightFrame, this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
+    this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame, this.player.x, this.player.y, this.player.x2, this.player.y2);
     this.balls.forEach(function (e, i) {
         this.ctx.drawImage(this.balls[i].pokeball, this.balls[i].spriteX, this.balls[i].spriteY, this.balls[i].widthFrame, this.balls[i].heightFrame, this.balls[i].x, this.balls[i].y, this.balls[i].x2, this.balls[i].y2);
     }.bind(this));
@@ -51,65 +51,67 @@ PangGame.prototype._collisionDetectionElements = function (elementOne, elementTw
 PangGame.prototype._collisionBallsPlayer = function () {
     this.balls.forEach(function (e, i) {
         if ((this._collisionDetectionElements(this.balls[i], this.player)) === true) {
-            this._stop();
             this._statusGame('lose');
         }
     }.bind(this));
 };
 
 PangGame.prototype._collisionBallsAttack = function () {
-    this.balls.forEach(function (e, i){
-        if ((this._collisionDetectionElements(this.balls[i], this.attack)) === true) {
-            if (e.x2 === 65){
-                this.balls.push(new Ball(height, width, this.balls[i].x + 25, this.balls[i].y, 50, 50, 1, -5));
-                this.balls.push(new Ball(height, width, this.balls[i].x + 25, this.balls[i].y, 50, 50, -1, -5));
-                this.attack.deleteAttack();
-                this.balls.splice(this.balls[i], 1);
-            }else{
+    this.balls.forEach(function (e, i) {
+        if ((this._collisionDetectionElements(e, this.attack)) === true) {
+            var index = this.balls[i];
+            if (e.x2 === 50) { //Small Ball
+                this.balls.splice(i, 1);
                 this.counterBall--;
-                if (this.counterBall === 4 || this.counterBall === 2) {
-                    this.balls.push(new Ball(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, 1, 3));
-                }
-                this.attack.deleteAttack();
-                this.balls.splice(this.balls[i],1);
+            console.log(this.balls);
+            if (this.counterBall % 2 == 0) {
+                this.balls.push(new Ball(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, -1, 3), new Ball(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, 1, 3));
             }
+            this.attack.intervalAttack = clearInterval(this.attack.intervalAttack);
+            this.attack.deleteAttack();
+            } else if (e.x2 === 65) { //Big Ball
+                this.balls.push(new Ball(height, width, e.x + 25, e.y, 50, 50, 1, -5), new Ball(height, width, e.x + 25, e.y, 50, 50, -1, -5));
+                this.balls.splice(i, 1);
+                console.log(this.balls);
+                this.attack.intervalAttack = clearInterval(this.attack.intervalAttack);
+                this.attack.deleteAttack();
         }
+    }
     }.bind(this));
 };
 
-PangGame.prototype._statusGame = function (status) {
-    if (this.counterBall === 0) {
-        this._youWin();
-    }
-    if (status === 'lose') {
-        this._youLose();
-    }
-};
-
 PangGame.prototype._youWin = function () {
-    alert('You win!! Congrats!!');
+    console.log('win');
 };
 
 PangGame.prototype._youLose = function () {
-    //alert('You lose.. L O S E R ! !');
-    // $('canvas').addClass('disable');
-    // $('.loser-screen').removeClass('disable');
-};
-
-PangGame.prototype._stop = function() {
-    window.cancelAnimationFrame(this.intervalGame);
-    this.intervalGame = undefined;
-    console.log('crash');
+    $('canvas').addClass('disable');
+    $('.loser-screen').removeClass('disable');
 };
 
 PangGame.prototype._controlsKeys = function () {
+    document.onkeydown = function (e) {
+        if (e.keyCode == 90) {
+            if (this.intervalGame != undefined) {
+                console.log('pause');
+                this._stop();
+            } else {
+                this._update();
+                this.player.updateFramePlayer();
+                this.attack.updateAttack();
+                this.balls.forEach(function (e, i) {
+                    this.balls[i].updatePosBall();
+                }.bind(this));
+            }
+        }
+    }.bind(this);
+
     window.addEventListener("keydown", function (e) {
         keys[e.keyCode] = true;
     });
     window.addEventListener("keyup", function (e) {
         keys[e.keyCode] = false;
         this.player.goStill(this.character);
-        this.player.direction = '';
     }.bind(this));
 
     if (keys[37]) {
@@ -125,23 +127,34 @@ PangGame.prototype._controlsKeys = function () {
         this.attack.updateAttack(this.player.x, this.player.x2, height, width);
         this.player.goAttack(this.character);
     }
-    if (keys[90]) {
-        console.log('pause');
-        if (this.intervalGame != undefined) {
-            window.cancelAnimationFrame(this.intervalGame);
-            this.intervalGame = undefined;
-        } else {
-            this._update();
-        }
-    }
 };
 
 PangGame.prototype._update = function () {
+    this._statusGame();
     this._controlsKeys();
     this.ctx.clearRect(0, 0, width, height);
-    this.drawElements();
+    this._drawElements();
     this._collisionBallsAttack();
     this._collisionBallsPlayer();
-    this._statusGame();
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
+};
+
+PangGame.prototype._statusGame = function (status) {
+    if (this.counterBall === 0) {
+        this._stop();
+        this._youWin();
+    }
+    if (status === 'lose') {
+        this._stop();
+        this._youLose();
+    }
+};
+
+PangGame.prototype._stop = function () {
+    this.intervalGame = window.cancelAnimationFrame(this.intervalGame);
+    this.player.setInterval = clearInterval(this.player.setInterval);
+    this.attack.intervalAttack = clearInterval(this.attack.intervalAttack);
+    this.balls.forEach(function (e, i) {
+        this.balls[i].intervalPosBall = window.cancelAnimationFrame(this.balls[i].intervalPosBall);
+    }.bind(this));
 };

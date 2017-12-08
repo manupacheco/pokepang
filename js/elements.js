@@ -37,12 +37,13 @@ Player.prototype._changeMoveFrame = function (move) {
     this.speedFrame = move.speedFrame;
 };
 
-Player.prototype.goStill = function (character) { 
+Player.prototype.goStill = function (character) {
     this._changeMoveFrame(character.still);
+    this.direction = '';
 };
 
 Player.prototype.goLeft = function (character) {
-    if(this.direction != 'left'){
+    if (this.direction != 'left') {
         this.x = this.x - this.speed;
         this._changeMoveFrame(character.left);
     }
@@ -130,6 +131,7 @@ function Ball(height, width, x, y, x2, y2, speedX, speedY) {
     this.boardWidth = width;
     this.gravity = 0.15;
     this.intervalBall = undefined;
+    this.intervalPosBall = undefined;
     //animation
     this.spriteWidth = 185;
     this.spriteHeight = 22;
@@ -168,5 +170,5 @@ Ball.prototype.updatePosBall = function () {
         this.speedY *= -1;
     }
 
-    this.intervalBall = window.requestAnimationFrame(this.updatePosBall.bind(this));
+    this.intervalPosBall = window.requestAnimationFrame(this.updatePosBall.bind(this));
 };
