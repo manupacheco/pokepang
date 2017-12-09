@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,39 +9,55 @@
     <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
     <title>Pang Game | Manu Pacheco</title>
 </head>
+
 <body>
 
-    <div class="header-red"></div>
+    <div class="header-red">
+        <div id="player-area" class="disable">
+            <div id="player-status">
+                <div id="player-img"></div>
+                <div id="player-info">
+                    <div id="player-name">PIKACHU</div>
+                    <div id="player-state"> · · · </div>
+                </div>
+                <div id="player-score">00</div>
+            </div>
+        </div>
+    </div>
     <div class="container-game">
-    <div class="left">
-        <div class="middle-red"></div>
-    </div>
-    <div class="starting-screen">
-        <div id="select-characters">
-        <div id="pikachu" class="characters"></div>
-        <div id="otro" class="characters"></div>
-        <div id="otroPika" class="characters"></div>
+        <div class="left">
+            <div class="middle-red"></div>
         </div>
-        <div id="game-options">
-        <button id="btn-start" class="btn">START</button>
+        <div class="starting-screen">
+            <div id="title-characters"> CHOOSE YOUR CHARACTER </div>
+            <div id="select-characters">
+                <div id="pikachu" class="characters"></div>
+                <div id="otro" class="characters"></div>
+                <div id="otroPika" class="characters"></div>
+            </div>
+            <div id="game-options">
+                <button id="btn-start" class="btn" disabled>START</button>
+            </div>
+        </div>
+        <canvas id="game-board" class="disable" width="1200" height="600"></canvas>
+        <div class="winner-screen disable">W I N N E R !</div>
+        <div class="loser-screen disable">L O S E R !</div>
+        <div class="right">
+            <div class="middle-red"></div>
         </div>
     </div>
-    <canvas id="game-board" class="disable" width="1200" height="600"></canvas>
-    <div class="loser-screen disable">L O S E R</div>
-    <div class="right">
-        <div class="middle-red"></div>
-    </div>
-</div>
     <div class="bottom-white">
         <div class="footer-info">
             Manu Pacheco | Ironhack Project GAME
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
     <script src="js/characters.js"></script>
     <script src="js/elements.js"></script>
     <script src="js/pang.js"></script>
     <script src="js/main.js"></script>
 </body>
+
 </html>
