@@ -1,11 +1,29 @@
 // imgs
 var imgBoard = new Image(); imgBoard.src = 'img/board.jpg';
 var imgPokeball = new Image(); imgPokeball.src = 'img/pokeballs.png';
+var imgPokeballCaught = new Image(); imgPokeballCaught.src ='img/pokeball_caught.png';
 var imgPikachuStill = new Image(); imgPikachuStill.src = 'img/pikachu.png';
 var imgPikachuLeft = new Image(); imgPikachuLeft.src = 'img/pikachu_run_left.png';
 var imgPikachuRight = new Image(); imgPikachuRight.src = 'img/pikachu_run_right.png';
 var imgPikachuAttack = new Image(); imgPikachuAttack.src = 'img/pikachu_attack.png';
 var imgPikachuThunder = new Image(); imgPikachuThunder.src = 'img/thunder.png';
+
+var caught = {
+  pokeball: {
+    character: imgPokeballCaught,
+    spriteWidth: 234,
+    spriteHeight: 40,
+    cols: 6,
+    rows: 1,
+    widthFrame: 39,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 6,
+    speedFrame: 100,
+  },
+};
 
 var pikachu = {
   speed: 5,

@@ -78,7 +78,7 @@ canvas {
 #player-state {
     width: 100%;
     height: 32%;
-    background-image: url('img/hearts_one.png');
+    background-image: url('img/hearts_full.png');
     background-size: 190px 28px;
     background-repeat: no-repeat;
     box-sizing: border-box;
