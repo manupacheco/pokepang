@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
-
 canvas {
     border: 5px solid rgb(46, 46, 46);
+    border-radius: 5px;
     z-index: 99;
 }
 
@@ -10,30 +10,49 @@ canvas {
     width: 100%;
     background-color: #e72611;
     display: flex;
+    justify-content: center;
+    flex-direction: row;
     align-items: flex-end;
+}
+
+#logo-area {
+    height: 170px;
+    width: 520px;
+    background-image: url('img/logo_pokepang.png');
+    background-size: 450px, 145px;
+    background-repeat: no-repeat;
+    margin-left: 80px;
 }
 
 #player-area {
     height: 100px;
-    width: 600px;
-    margin-left: 50%;
+    width: 650px;
 }
 
 #player-status {
     height: 100px;
     width: 400px;
-    /* background-color: rgb(52, 136, 49); */
+    background-color: rgb(46, 46, 46);
+    /* background-image: url('img/player_info.png');
+    background-size: cover; */
     margin-left: 200px;
     display: flex;
     flex-direction: row;
+    border-top: 5px solid rgb(46, 46, 46);
+    border-right: 10px solid rgb(46, 46, 46);
+    border-left: 10px solid rgb(46, 46, 46);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
 }
 
 #player-img {
-    width: 25%;
-    height: 100%;
+    width: 22%;
+    height: 85%;
     background-image: url('img/select_pikachu.gif');
-    background-size: 90px, 90px;
+    background-size: 80px, 80px;
     background-repeat: no-repeat;
+    border: 5px solid rgb(46, 46, 46);
+    margin-left: 10px;
 }
 
 #player-info {
@@ -41,39 +60,52 @@ canvas {
     height: 100%;
     display: flex;
     flex-direction: column;
+    border-top: 5px solid rgb(46, 46, 46);
+    border-left: 5px solid rgb(46, 46, 46);
 }
 
 #player-name {
     width: 100%;
-    height: 50%;
-    color: rgb(46, 46, 46);
+    height: 33.3%;
+    color: rgb(255, 255, 255);
     font-family: 'Press Start 2P';
     font-size: 18px;
     text-align: center;
     box-sizing: border-box;
-    padding-top: 20px;
+    padding-top: 15px;
 }
 
 #player-state {
     width: 100%;
-    height: 50%;
-    color: rgb(46, 46, 46);
+    height: 32%;
+    background-image: url('img/hearts_one.png');
+    background-size: 190px 28px;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+#player-attack {
+    width: 100%;
+    height: 33.3%;
+    color: rgb(87, 85, 85);
     font-family: 'Press Start 2P';
     font-size: 18px;
     text-align: center;
     box-sizing: border-box;
-    padding-top: 20px;
+    padding-top: 5px;
 }
 
 #player-score {
     width: 25%;
     height: 100%;
-    color: rgb(46, 46, 46);
+    color: rgb(255, 255, 255);
     font-family: 'Press Start 2P';
-    font-size: 28px;
+    font-size: 32px;
     text-align: center;
-    box-sizing: border-box;
-    padding-top: 40px;
+    /* box-sizing: border-box; */
+    padding-top: 35px;
+
 }
 
 .container-game {
@@ -87,6 +119,7 @@ canvas {
     height: 600px;
     width: 1200px;
     border: 5px solid rgb(46, 46, 46);
+    border-radius: 5px;
     background-image: url('img/board2.jpg');
     background-size: cover;
     z-index: 100;
@@ -99,7 +132,7 @@ canvas {
     align-items: center;
     width: 100%;
     height: 20%;
-    color: rgb(46, 46, 46);
+    color: rgb(87, 85, 85);
     font-family: 'Press Start 2P';
     font-size: 32px;
     box-sizing: border-box;
@@ -115,14 +148,14 @@ canvas {
     height: 50%;
 }
 
-.characters{
-    width: 150px;
-    height: 150px;
+.characters {
+    width: 100px;
+    height: 100px;
 }
 
 #pikachu {
     background-image: url('img/select_pikachu.gif');
-    background-size: 140px, 140px;
+    background-size: 90px, 90px;
     background-repeat: no-repeat;
 }
 
@@ -130,7 +163,8 @@ canvas {
     height: 600px;
     width: 1200px;
     border: 5px solid rgb(46, 46, 46);
-    background-color: rgb(28, 139, 0);
+    border-radius: 5px;
+    background-color: rgb(38, 172, 2);
     z-index: 100;
     font-family: 'Press Start 2P';
     font-size: 28px;
@@ -144,6 +178,7 @@ canvas {
     height: 600px;
     width: 1200px;
     border: 5px solid rgb(46, 46, 46);
+    border-radius: 5px;
     background-color: rgb(255, 130, 58);
     z-index: 100;
     font-family: 'Press Start 2P';
@@ -164,14 +199,14 @@ canvas {
     height: 30%;
 }
 
-.btn  {
+.btn {
     height: 100px;
     width: 200px;
     font-family: 'Press Start 2P';
     font-size: 28px;
     top: 0;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     text-align: center;
     transition: all 1s ease;
     background: #e72611;
@@ -228,7 +263,7 @@ canvas {
     color: rgb(87, 85, 85);
     font-size: 14px;
 }
-                            
-.disable {                                
+
+.disable {
     display: none;
 }
