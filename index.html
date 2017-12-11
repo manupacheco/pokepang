@@ -20,11 +20,11 @@
             <div id="player-status">
                 <div id="player-img"></div>
                 <div id="player-info">
-                    <div id="player-name">PIKACHU</div>
+                    <div id="player-name"></div>
                     <div id="player-state"></div>
                     <div id="player-attack"></div>
                 </div>
-                <div id="player-score">000</div>
+                <div id="player-score"></div>
             </div>
         </div>
     </div>
@@ -36,16 +36,20 @@
             <div id="title-characters"> CHOOSE YOUR CHARACTER </div>
             <div id="select-characters">
                 <div id="pikachu" class="characters"></div>
-                <div id="otro" class="characters"></div>
+                <div id="squirtle" class="characters"></div>
                 <div id="otroPika" class="characters"></div>
             </div>
             <div id="game-options">
                 <button id="btn-start" class="btn" disabled>START</button>
             </div>
         </div>
+        <div class="back-screen"></div>
         <canvas id="game-board" class="disable" width="1200" height="600"></canvas>
-        <div class="winner-screen disable">W I N N E R !</div>
-        <div class="loser-screen disable">L O S E R !</div>
+        <div class="pause-screen disable">- P A U S E -</div>
+        <div class="loser-screen disable">
+            <span>L O S E R !</span>
+            <button id="btn-tryagain" class="btn">TRY AGAIN</button>
+        </div>
         <div class="right">
             <div class="middle-red"></div>
         </div>

@@ -2,7 +2,7 @@ function Player(character) {
     this.x2 = 100;
     this.y2 = 100;
     this.x = (width / 2) - this.x2;
-    this.y = height - this.y2;
+    this.y = (height-10)- this.y2;
     this.speed = character.speed;
     this.direction = '';
     this.setInterval = undefined;
@@ -68,29 +68,25 @@ Player.prototype.goAttack = function (character) {
     this._changeMoveFrame(character.attack);
 };
 
-function Attack(height) {
-    this.image = imgPikachuThunder;
+function Attack(height, character) {
+    this.image = character.character;
     this.x = 0;
     this.y = height;
     this.x2 = 0;
     this.y2 = 0;
     this.intervalAttack = undefined;
     //animation
-    this.spriteWidth = 81;
-    this.spriteHeight = 614;
-    this.cols = 2;
-    this.rows = 1;
-    this.widthFrame = this.spriteWidth / this.cols;
-    this.heightFrame = this.spriteHeight / this.rows;
-    this.spriteX = 0;
-    this.spriteY = 0;
-    this.currentFrame = 0;
-    this.frameCount = 2;
+    this.widthFrame = character.widthFrame;
+    this.heightFrame = character.heightFrame;
+    this.spriteX = character.spriteX;
+    this.spriteY =character.spriteY;
+    this.currentFrame = character.currentFrame;
+    this.frameCount = character.frameCount;
 }
 
 Attack.prototype.updateAttack = function (x, x2, height, width) {
     this.x = x + 30;
-    this.y = height - x2;
+    this.y = (height-10) - x2;
     this.x2 = x2 - 60;
     this.y2 = height + x2;
 

@@ -2,13 +2,21 @@
 var imgBoard = new Image(); imgBoard.src = 'img/board.jpg';
 var imgPokeball = new Image(); imgPokeball.src = 'img/pokeballs.png';
 var imgPokeballCaught = new Image(); imgPokeballCaught.src ='img/pokeball_caught.png';
+var imgPokeballLightIn = new Image(); imgPokeballLightIn.src ='img/light_caught_in.png';
+var imgPokeballLightOut = new Image(); imgPokeballLightOut.src = 'img/light_caught_out.png';
 var imgPikachuStill = new Image(); imgPikachuStill.src = 'img/pikachu.png';
 var imgPikachuLeft = new Image(); imgPikachuLeft.src = 'img/pikachu_run_left.png';
 var imgPikachuRight = new Image(); imgPikachuRight.src = 'img/pikachu_run_right.png';
 var imgPikachuAttack = new Image(); imgPikachuAttack.src = 'img/pikachu_attack.png';
 var imgPikachuThunder = new Image(); imgPikachuThunder.src = 'img/thunder.png';
+var imgSquirtleStill = new Image(); imgSquirtleStill.src = 'img/squirtle_normal.png';
+var imgSquirtleLeft = new Image(); imgSquirtleLeft.src = 'img/squirtle_left.png';
+var imgSquirtleRight = new Image(); imgSquirtleRight.src = 'img/squirtle_right.png';
+var imgSquirtleAttack = new Image(); imgSquirtleAttack.src = 'img/squirtle_attack.png';
+var imgSquirtleWater = new Image(); imgSquirtleWater.src = 'img/water.png';
 
-var caught = {
+
+var caugth = {
   pokeball: {
     character: imgPokeballCaught,
     spriteWidth: 234,
@@ -21,6 +29,34 @@ var caught = {
     spriteY: 0,
     currentFrame: 0,
     frameCount: 6,
+    speedFrame: 100,
+  },
+  lightIn: {
+    character: imgPokeballLightIn,
+    spriteWidth: 117,
+    spriteHeight: 40,
+    cols: 3,
+    rows: 1,
+    widthFrame: 39,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 3,
+    speedFrame: 100,
+  },
+   lightOut: {
+    character: imgPokeballLightOut,
+    spriteWidth: 117,
+    spriteHeight: 40,
+    cols: 3,
+    rows: 1,
+    widthFrame: 39,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 3,
     speedFrame: 100,
   },
 };
@@ -83,4 +119,92 @@ var pikachu = {
     frameCount: 5,
     speedFrame: 50,
   },
+  attackType: {
+    character: imgPikachuThunder,
+    spriteWidth: 81,
+    spriteHeight: 614,
+    cols: 2,
+    rows: 1,
+    widthFrame: 40.5,
+    heightFrame: 614,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 2,
+    speedFrame: 100,
+  }
+};
+
+var squirtle = {
+  speed: 5,
+  still: {
+    character: imgSquirtleStill,
+    spriteWidth: 273,
+    spriteHeight: 40,
+    cols: 7,
+    rows: 1,
+    widthFrame: 41,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 3,
+    speedFrame: 200,
+  },
+  left: {
+    character: imgSquirtleLeft,
+    spriteWidth: 288,
+    spriteHeight: 37,
+    cols: 6,
+    rows: 1,
+    widthFrame: 39,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 6,
+    speedFrame: 50,
+  },
+  right: {
+    character: imgSquirtleRight,
+    spriteWidth: 288,
+    spriteHeight: 37,
+    cols: 6,
+    rows: 1,
+    widthFrame: 39,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 6,
+    speedFrame: 50,
+  },
+  attack: {
+    character: imgSquirtleAttack,
+    spriteWidth: 210,
+    spriteHeight: 37,
+    cols: 3,
+    rows: 1,
+    widthFrame: 44,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 3,
+    speedFrame: 50,
+  },
+  attackType: {
+    character: imgSquirtleWater,
+    spriteWidth: 81,
+    spriteHeight: 614,
+    cols: 2,
+    rows: 1,
+    widthFrame: 40.5,
+    heightFrame: 614,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 2,
+    speedFrame: 200,
+  }
 };

@@ -14,4 +14,8 @@ $(document).ready(function () {
         $('canvas').removeClass('disable');
         pang.init();
     });
+
+    $('#btn-tryagain').on('click', function () {
+        window.location.reload(true);
+    });
 });
