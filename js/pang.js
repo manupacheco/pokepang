@@ -20,6 +20,7 @@ function PangGame(characterSelect) {
 }
 
 PangGame.prototype._selectCharacter = function (selection) {
+    $('#selected').html(selection.toUpperCase());
     $('#player-name').html(selection.toUpperCase());
     switch (selection) {
         case "pikachu":
