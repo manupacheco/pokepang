@@ -12,9 +12,11 @@ function PangGame(characterSelect) {
     this.counterBall = 1000;
     this.counterLifes = 3;
     this.score = 25;
-    this.power = 5;
+    this.power = 90;
     this.caugth = false;
     this.massiveAttack = [];
+    this.intervalFillPowerBar = undefined;
+    this.intervalClearPowerBar = undefined;
     this.intervalTimer = undefined;
     this.intervalGame = undefined;
 }
@@ -25,12 +27,14 @@ PangGame.prototype._selectCharacter = function (selection) {
     switch (selection) {
         case "pikachu":
             $('#player-img').css("background-image", "url('img/select_pikachu.gif')");
+            $('#player-attack').css("background-image", "url('img/power_thunder.png')");
             return pikachu;
         case "squirtle":
             $('#player-img').css("background-image", "url('img/select_squirtle.gif')");
+            $('#player-attack').css("background-image", "url('img/power_water.png')");
             return squirtle;
-        case "otro":
-            return "otro";
+        case "charmander":
+            return charmander;
     }
 };
 
@@ -47,7 +51,6 @@ PangGame.prototype._timer = function () {
 };
 
 PangGame.prototype._drawElements = function () {
-    //this.ctx.drawImage(this.board, 0, 0, width, height);
     this.ctx.drawImage(this.attack.image, this.attack.spriteX, this.attack.spriteY, this.attack.widthFrame, this.attack.heightFrame, this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
     if (this.massiveAttack.length !== 0) {
         this.massiveAttack.forEach(function (e, i) {
@@ -62,7 +65,9 @@ PangGame.prototype._drawElements = function () {
         this.score = 0;
     }
     $('#player-score').html(this.score);
-    $('#player-attack').html(this.power);
+    if (this.power < 101) {
+        $('#player-attack').css("width", this.power + "%");
+    }
 };
 
 PangGame.prototype._collisionDetectionElements = function (elementOne, elementTwo) {
@@ -126,7 +131,7 @@ PangGame.prototype._collisionBallsAttack = function () {
     this.balls.forEach(function (e, i) {
         if ((this._collisionDetectionElements(e, this.attack)) === true) {
             this.score = this.score + 5;
-            this.power++;
+            this._fillPowerBar(10);
             if (e.x2 === 50) { //Small Ball
                 this.balls.splice(i, 1);
                 this.counterBall--;
@@ -149,7 +154,7 @@ PangGame.prototype._collisionBallsMasiveAttack = function () {
     this.massiveAttack.forEach(function (attackElement, attackIndex) {
         this.balls.forEach(function (ballsElement, ballsIndex) {
             if (this._collisionDetectionElements(ballsElement, attackElement) === true) {
-                this.score = this.score + 5;
+                this.score = this.score + 2;
                 this.balls.splice(ballsIndex, 1);
             }
         }.bind(this));
@@ -166,14 +171,14 @@ PangGame.prototype._generateMasiveAttack = function () {
 
     setTimeout(function () {
         this.massiveAttack = [];
-        this.power = 0;
+        this._cleanPowerBar();
         for (var i = 0; i < 12; i++) {
             this.massiveAttack.push(new Attack(height, this.character.attackType));
         }
         var max = 100;
         var min = 0;
         this.massiveAttack.forEach(function (e, i) {
-            this.massiveAttack[i].updateAttack(Math.random() * (max - min) + min, this.player.x2, Math.random() * ((height + 200) - (height - 80)) + (height - 80));
+            this.massiveAttack[i].updateAttack(Math.random() * (max - min) + min, this.player.x2, Math.random() * ((height + 200) - (height)) + (height));
             max = max + 100;
             min = min + 100;
         }.bind(this));
@@ -185,8 +190,32 @@ PangGame.prototype._generateMasiveAttack = function () {
             this.balls.push(new Ball(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, -1, 3));
             this.player.goStill(this.character);
             this.caugth = false;
-        }.bind(this), 5000);
+        }.bind(this), 3000);
     }.bind(this), 2000);
+};
+
+PangGame.prototype._fillPowerBar = function (powerAdd) {
+    var totalPower = this.power + powerAdd;
+    this.intervalFillPowerBar = setInterval(function () {
+        this.power++;
+        if (this.power === totalPower) {
+            clearInterval(this.intervalFillPowerBar);
+        }
+        if (this.power > 99) {
+            $('#masive-attack').removeClass('disable');
+        }
+    }.bind(this), 50);
+};
+
+PangGame.prototype._cleanPowerBar = function () {
+    this.power = 100;
+    $('#masive-attack').addClass('disable');
+    this.intervalClearPowerBar = setInterval(function () {
+        this.power--;
+        if (this.power === 0) {
+            clearInterval(this.intervalClearPowerBar);
+        }
+    }.bind(this), 40);
 };
 
 PangGame.prototype._youLose = function () {
@@ -230,7 +259,7 @@ PangGame.prototype._controlsKeys = function () {
                     }.bind(this));
                 }
             }
-            if (e.keyCode == 77 && this.power > 9) { // m massiveAttack function
+            if (e.keyCode == 77 && this.power > 99) { // m massiveAttack function
                 this._generateMasiveAttack();
             }
         }.bind(this);

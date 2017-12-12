@@ -35,8 +35,6 @@ canvas {
     height: 100px;
     width: 400px;
     background-color: rgb(46, 46, 46);
-    /* background-image: url('img/player_info.png');
-    background-size: cover; */
     margin-left: 200px;
     display: flex;
     flex-direction: row;
@@ -101,10 +99,38 @@ canvas {
 }
 
 #power-bar {
-    width: 100%;
-    height: 100%;
+    width: 193px;
+    height: 29px;
+    margin-top: -5px;
     position: absolute;
     background-image: url('img/power_bar.png');
+}
+
+#massive-attack {
+    width: 193px;
+    height: 29px;
+    position: absolute;
+    font-family: 'Press Start 2P';
+    font-size: 14px;
+    text-align: center;
+    box-sizing: border-box;
+    padding-top: 5px;
+}
+
+.blinking {
+    animation-name: blinking;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    margin-top: 10px;
+    color: rgb(255, 255, 255);
+    -webkit-text-stroke: 1px black;
+}
+
+@keyframes blinking {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
 }
 
 #player-score {
@@ -114,7 +140,6 @@ canvas {
     font-family: 'Press Start 2P';
     font-size: 32px;
     text-align: center;
-    /* box-sizing: border-box; */
     padding-top: 35px;
 }
 

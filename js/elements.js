@@ -2,7 +2,7 @@ function Player(character) {
     this.x2 = 100;
     this.y2 = 100;
     this.x = (width / 2) - this.x2;
-    this.y = (height-10)- this.y2;
+    this.y = (height - 10) - this.y2;
     this.speed = character.speed;
     this.direction = '';
     this.setInterval = undefined;
@@ -79,20 +79,20 @@ function Attack(height, character) {
     this.widthFrame = character.widthFrame;
     this.heightFrame = character.heightFrame;
     this.spriteX = character.spriteX;
-    this.spriteY =character.spriteY;
+    this.spriteY = character.spriteY;
     this.currentFrame = character.currentFrame;
     this.frameCount = character.frameCount;
 }
 
 Attack.prototype.updateAttack = function (x, x2, height, width) {
     this.x = x + 30;
-    this.y = (height-10) - x2;
+    this.y = height - x2;
     this.x2 = x2 - 60;
     this.y2 = height + x2;
 
     this.intervalAttack = clearInterval(this.intervalAttack);
     this.intervalAttack = setInterval(function () {
-        this.y = this.y - 15;
+        this.y = this.y - 25;
         this.currentFrame = ++this.currentFrame % this.frameCount;
         this.spriteX = this.currentFrame * this.widthFrame;
         if (this.y < -15) {
@@ -140,10 +140,10 @@ function Ball(height, width, x, y, x2, y2, speedX, speedY) {
     this.currentFrame = 0;
     this.frameCount = 8;
     this.updatePosBall();
-    this.updateFrameBall();
+    this._updateFrameBall();
 }
 
-Ball.prototype.updateFrameBall = function () {
+Ball.prototype._updateFrameBall = function () {
     this.intervalBall = setInterval(function () {
         this.currentFrame = ++this.currentFrame % this.frameCount;
         this.spriteX = this.currentFrame * this.widthFrame;
@@ -151,6 +151,7 @@ Ball.prototype.updateFrameBall = function () {
 };
 
 Ball.prototype.updatePosBall = function () {
+    // this.intervalPosBall = window.cancelAnimationFrame(this.intervalPosBall);
     this.speedY += this.gravity;
     this.x += this.speedX;
     this.y += this.speedY;
@@ -165,6 +166,5 @@ Ball.prototype.updatePosBall = function () {
         this.speedY = -10;
         this.speedY *= -1;
     }
-
     this.intervalPosBall = window.requestAnimationFrame(this.updatePosBall.bind(this));
 };
