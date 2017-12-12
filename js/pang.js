@@ -12,7 +12,7 @@ function PangGame(characterSelect) {
     this.counterBall = 1000;
     this.counterLifes = 3;
     this.score = 25;
-    this.power = 10;
+    this.power = 5;
     this.caugth = false;
     this.massiveAttack = [];
     this.intervalTimer = undefined;
@@ -62,6 +62,7 @@ PangGame.prototype._drawElements = function () {
         this.score = 0;
     }
     $('#player-score').html(this.score);
+    $('#player-attack').html(this.power);
 };
 
 PangGame.prototype._collisionDetectionElements = function (elementOne, elementTwo) {
@@ -89,7 +90,6 @@ PangGame.prototype._collisionBallsPlayer = function () {
 };
 
 PangGame.prototype._caugthAnimation = function () {
-    this.intervalTimer = clearInterval(this.intervalTimer);
     this.player._changeMoveFrame(caugth.lightIn);
     setTimeout(function () {
         this.player._changeMoveFrame(caugth.pokeball);
@@ -103,7 +103,6 @@ PangGame.prototype._caugthAnimation = function () {
                 this.balls.push(new Ball(height, width, (Math.random() * ((width - 110) - 0) + 0), 50, 65, 65, -1, 3));
                 this.player.goStill(this.character);
                 this.caugth = false;
-                this._timer();
             }.bind(this), 500);
         }.bind(this), 2000);
     }.bind(this), 500);
@@ -167,7 +166,7 @@ PangGame.prototype._generateMasiveAttack = function () {
 
     setTimeout(function () {
         this.massiveAttack = [];
-        //this.power = 0;
+        this.power = 0;
         for (var i = 0; i < 12; i++) {
             this.massiveAttack.push(new Attack(height, this.character.attackType));
         }
@@ -215,7 +214,7 @@ PangGame.prototype._stop = function () {
 PangGame.prototype._controlsKeys = function () {
     if (this.caugth === false) {
         document.onkeydown = function (e) {
-            if (e.keyCode == 90) {
+            if (e.keyCode == 90) { // z pause
                 if (this.intervalGame != undefined) {
                     $('.pause-screen').removeClass('disable');
                     console.log('pause');
@@ -258,7 +257,6 @@ PangGame.prototype._controlsKeys = function () {
             this.attack.updateAttack(this.player.x, this.player.x2, height, width);
             this.player.goAttack(this.character);
         }
-
     }
 };
 
