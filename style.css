@@ -119,12 +119,12 @@ canvas {
 
 .blinking {
     animation-name: blinking;
-    animation-duration: 2s;
+    animation-duration: 3s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     margin-top: 10px;
-    color: rgb(255, 255, 255);
-    -webkit-text-stroke: 1px black;
+    color: rgb(46, 46, 46);
+    -webkit-text-stroke: 0.2px rgb(255, 255, 255);
 }
 
 @keyframes blinking {  

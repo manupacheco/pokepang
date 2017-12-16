@@ -172,15 +172,15 @@ PangGame.prototype._generateMasiveAttack = function () {
     setTimeout(function () {
         this.massiveAttack = [];
         this._cleanPowerBar();
-        for (var i = 0; i < 12; i++) {
+        for (var i = 0; i < 15; i++) {
             this.massiveAttack.push(new Attack(height, this.character.attackType));
         }
-        var max = 100;
+        var max = 80;
         var min = 0;
         this.massiveAttack.forEach(function (e, i) {
             this.massiveAttack[i].updateAttack(Math.random() * (max - min) + min, this.player.x2, Math.random() * ((height + 200) - (height)) + (height));
-            max = max + 100;
-            min = min + 100;
+            max = max + 80;
+            min = min + 80;
         }.bind(this));
         setTimeout(function () {
             $('canvas').css("background-image", "url('img/board.jpg')");
@@ -238,6 +238,7 @@ PangGame.prototype._stop = function () {
     this.balls.forEach(function (e, i) {
         this.balls[i].intervalPosBall = window.cancelAnimationFrame(this.balls[i].intervalPosBall);
     }.bind(this));
+    this.caugth = true;
 };
 
 PangGame.prototype._controlsKeys = function () {
@@ -245,13 +246,14 @@ PangGame.prototype._controlsKeys = function () {
         document.onkeydown = function (e) {
             if (e.keyCode == 90) { // z pause
                 if (this.intervalGame != undefined) {
-                    $('.pause-screen').removeClass('disable');
                     console.log('pause');
+                    $('.pause-screen').removeClass('disable');
                     this._stop();
                 } else {
                     $('.pause-screen').addClass('disable');
                     this._update();
                     this._timer();
+                    this.caugth = false;
                     this.player.updateFramePlayer();
                     this.attack.updateAttack();
                     this.balls.forEach(function (e, i) {
