@@ -14,6 +14,11 @@ var imgSquirtleLeft = new Image(); imgSquirtleLeft.src = 'img/squirtle_left.png'
 var imgSquirtleRight = new Image(); imgSquirtleRight.src = 'img/squirtle_right.png';
 var imgSquirtleAttack = new Image(); imgSquirtleAttack.src = 'img/squirtle_attack.png';
 var imgSquirtleWater = new Image(); imgSquirtleWater.src = 'img/water.png';
+var imgCharmanderStill = new Image(); imgCharmanderStill.src = 'img/charmander_normal.png';
+var imgCharmanderLeft = new Image(); imgCharmanderLeft.src = 'img/charmander_left.png';
+var imgCharmanderRight = new Image(); imgCharmanderRight.src = 'img/charmander_right.png';
+var imgCharmanderAttack = new Image(); imgCharmanderAttack.src = 'img/charmander_attack.png';
+var imgCharmanderFire = new Image(); imgCharmanderFire.src = 'img/fire.png';
 
 
 var caugth = {
@@ -62,6 +67,7 @@ var caugth = {
 };
 
 var pikachu = {
+  x2: 90,
   speed: 5,
   still: {
     character: imgPikachuStill,
@@ -136,6 +142,7 @@ var pikachu = {
 };
 
 var squirtle = {
+  x2: 100,
   speed: 5,
   still: {
     character: imgSquirtleStill,
@@ -195,6 +202,81 @@ var squirtle = {
   },
   attackType: {
     character: imgSquirtleWater,
+    spriteWidth: 81,
+    spriteHeight: 614,
+    cols: 2,
+    rows: 1,
+    widthFrame: 40.5,
+    heightFrame: 614,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 2,
+    speedFrame: 200,
+  }
+};
+
+var charmander = {
+  x2: 120,
+  speed: 5,
+  still: {
+    character: imgCharmanderStill,
+    spriteWidth: 147,
+    spriteHeight: 40,
+    cols: 3,
+    rows: 1,
+    widthFrame: 49,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 3,
+    speedFrame: 200,
+  },
+  left: {
+    character: imgCharmanderLeft,
+    spriteWidth: 288,
+    spriteHeight: 37,
+    cols: 6,
+    rows: 1,
+    widthFrame: 49,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 6,
+    speedFrame: 50,
+  },
+  right: {
+    character: imgCharmanderRight,
+    spriteWidth: 288,
+    spriteHeight: 37,
+    cols: 6,
+    rows: 1,
+    widthFrame: 49,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 6,
+    speedFrame: 50,
+  },
+  attack: {
+    character: imgCharmanderAttack,
+    spriteWidth: 210,
+    spriteHeight: 37,
+    cols: 3,
+    rows: 1,
+    widthFrame: 49,
+    heightFrame: 40,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 3,
+    speedFrame: 50,
+  },
+  attackType: {
+    character: imgCharmanderFire,
     spriteWidth: 81,
     spriteHeight: 614,
     cols: 2,

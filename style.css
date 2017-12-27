@@ -217,6 +217,13 @@ canvas {
     background-position: bottom;
 }
 
+#charmander {
+    background-image: url('img/select_charmander.gif');
+    background-size: 100px, 100px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
 .pause-screen {
     height: 590px;
     width: 1200px;

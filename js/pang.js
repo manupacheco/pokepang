@@ -19,6 +19,11 @@ function PangGame(characterSelect) {
     this.intervalClearPowerBar = undefined;
     this.intervalTimer = undefined;
     this.intervalGame = undefined;
+
+    // this.pokemonFly = new PokemonFly(-250,20,150,80,2,height,width);
+    // if(this.pokemonFly.x < (-240)){
+    // this.pokemonStone = new PokemonStone(this.pokemonFly.x+60,this.pokemonFly.y+this.pokemonFly.y2,40,40, this.pokemonFly.speedX, height, width);
+    // }
 }
 
 PangGame.prototype._selectCharacter = function (selection) {
@@ -34,6 +39,8 @@ PangGame.prototype._selectCharacter = function (selection) {
             $('#player-attack').css("background-image", "url('img/power_water.png')");
             return squirtle;
         case "charmander":
+            $('#player-img').css("background-image", "url('img/select_charmander.gif')");
+            $('#player-attack').css("background-image", "url('img/power_fire.png')");
             return charmander;
     }
 };
@@ -57,7 +64,7 @@ PangGame.prototype._drawElements = function () {
             this.ctx.drawImage(this.massiveAttack[i].image, this.massiveAttack[i].spriteX, this.massiveAttack[i].spriteY, this.massiveAttack[i].widthFrame, this.massiveAttack[i].heightFrame, this.massiveAttack[i].x, this.massiveAttack[i].y, this.massiveAttack[i].x2, this.massiveAttack[i].y2);
         }.bind(this));
     }
-    this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame, this.player.x, this.player.y, this.player.x2, this.player.y2);
+    this.ctx.drawImage(this.player.character, this.player.spriteX, this.player.spriteY, this.player.widthFrame, this.player.heightFrame, this.player.x, this.player.y, this.caugth ? 100 : this.player.x2, this.player.y2);
     this.balls.forEach(function (e, i) {
         this.ctx.drawImage(this.balls[i].pokeball, this.balls[i].spriteX, this.balls[i].spriteY, this.balls[i].widthFrame, this.balls[i].heightFrame, this.balls[i].x, this.balls[i].y, this.balls[i].x2, this.balls[i].y2);
     }.bind(this));
@@ -68,6 +75,13 @@ PangGame.prototype._drawElements = function () {
     if (this.power < 101) {
         $('#player-attack').css("width", this.power + "%");
     }
+
+    // this.ctx.fillRect(this.pokemonFly.x,this.pokemonFly.y,this.pokemonFly.x2, this.pokemonFly.y2)
+    // this.ctx.fillStyle = this.pokemonFly.character;
+
+
+    // this.ctx.fillRect(this.pokemonStone.x, this.pokemonStone.y, this.pokemonStone.x2, this.pokemonStone.y2)
+    // this.ctx.fillStyle = this.pokemonStone.character;
 };
 
 PangGame.prototype._collisionDetectionElements = function (elementOne, elementTwo) {
@@ -159,6 +173,21 @@ PangGame.prototype._collisionBallsMasiveAttack = function () {
             }
         }.bind(this));
     }.bind(this));
+};
+
+PangGame.prototype._collisionAttackPokemonFly = function () {
+    if(this._collisionDetectionElements(this.pokemonFly, this.attack) === true){
+        this.pokemonStone.falling = true;
+        console.log('pum');
+    }
+};
+
+PangGame.prototype._collisionPlayerPokemonStone = function () {
+    if (this._collisionDetectionElements(this.player, this.pokemonStone) === true) {
+        this.pokemonStone.falling = false;
+        this.pokemonStone = new PokemonStone(this.pokemonFly.x + 60, this.pokemonFly.y + this.pokemonFly.y2, 40, 40, this.pokemonFly.speedX, height, width);
+        console.log('power!');
+    }
 };
 
 PangGame.prototype._generateMasiveAttack = function () {
@@ -299,5 +328,7 @@ PangGame.prototype._update = function () {
     this._collisionBallsAttack();
     this._collisionBallsMasiveAttack();
     this._collisionBallsPlayer();
+    this._collisionAttackPokemonFly();
+    this._collisionPlayerPokemonStone();
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
 };
