@@ -168,8 +168,8 @@ Ball.prototype.updatePosBall = function () {
     this.intervalPosBall = window.requestAnimationFrame(this.updatePosBall.bind(this));
 };
 
-function PokemonFly(x, y, x2, y2, speedX, height, width) {
-    this.character = 'blue';
+function PokemonFly(x, y, x2, y2, speedX, height, width, pokemon) {
+    this.character = pokemon.character;
     this.x = x;
     this.y = y;
     this.x2 = x2;
@@ -178,18 +178,16 @@ function PokemonFly(x, y, x2, y2, speedX, height, width) {
     this.boardHeight = height;
     this.boardWidth = width;
     this.intervalPokemonFly = undefined;
+    this.direction = 'left';
     //animation
-    this.spriteWidth = 185;
-    this.spriteHeight = 22;
-    this.cols = 8;
-    this.rows = 1;
-    this.widthFrame = this.spriteWidth / this.cols;
-    this.heightFrame = this.spriteHeight / this.rows;
-    this.spriteX = 0;
-    this.spriteY = 0;
-    this.currentFrame = 0;
-    this.frameCount = 8;
+    this.widthFrame = pokemon.widthFrame;
+    this.heightFrame = pokemon.heightFrame;
+    this.spriteX = pokemon.spriteX;
+    this.spriteY = pokemon.spriteY;
+    this.currentFrame = pokemon.currentFrame;
+    this.frameCount = pokemon.frameCount;
     this.updatePosPokemonFly();
+    this._updateFramePokemonFly();
 }
 
 PokemonFly.prototype._updateFramePokemonFly = function () {
@@ -200,11 +198,21 @@ PokemonFly.prototype._updateFramePokemonFly = function () {
 };
 
 PokemonFly.prototype.updatePosPokemonFly = function () {
-    //this.intervalPokemonFly = window.cancelAnimationFrame(this.intervalPokemonFly);
-    if (this.x > this.boardWidth) {
-        this.x = -250;
+    this.intervalPokemonFly = window.cancelAnimationFrame(this.intervalPokemonFly);
+    if(this.direction == 'right'){
+        if (this.x > this.boardWidth + 200) {
+            this.x = this.boardWidth + 250;
+            this.direction = 'left';
+        }
+        this.x += this.speedX;
     }
-    this.x += this.speedX;
+    if(this.direction == 'left'){
+        if (this.x > -200) {
+            this.x = -250;
+            this.direction = 'right';
+        }
+        this.x -= this.speedX;
+    }
     this.intervalPokemonFly = window.requestAnimationFrame(this.updatePosPokemonFly.bind(this));
 };
 

@@ -19,15 +19,35 @@ var imgCharmanderLeft = new Image(); imgCharmanderLeft.src = 'img/charmander_lef
 var imgCharmanderRight = new Image(); imgCharmanderRight.src = 'img/charmander_right.png';
 var imgCharmanderAttack = new Image(); imgCharmanderAttack.src = 'img/charmander_attack.png';
 var imgCharmanderFire = new Image(); imgCharmanderFire.src = 'img/fire.png';
+var imgPidgeottoLeft = new Image(); imgPidgeottoLeft.src = 'img/pidgeotto_left.png';
+var imgPidgeottoRight = new Image(); imgPidgeottoRight.src = 'img/pidgeotto_right.png';
 
+var pidgeotto = {
+  left: {
+    character: imgPidgeottoLeft,
+    widthFrame: 119,
+    heightFrame: 89,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 5,
+    speedFrame: 100,
+  },
+  right: {
+    character: imgPidgeottoRight,
+    widthFrame: 119,
+    heightFrame: 89,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 5,
+    speedFrame: 100,
+  },
+};
 
 var caugth = {
   pokeball: {
     character: imgPokeballCaught,
-    spriteWidth: 234,
-    spriteHeight: 40,
-    cols: 6,
-    rows: 1,
     widthFrame: 39,
     heightFrame: 40,
     spriteX: 0,
@@ -38,10 +58,6 @@ var caugth = {
   },
   lightIn: {
     character: imgPokeballLightIn,
-    spriteWidth: 117,
-    spriteHeight: 40,
-    cols: 3,
-    rows: 1,
     widthFrame: 39,
     heightFrame: 40,
     spriteX: 0,
@@ -52,10 +68,6 @@ var caugth = {
   },
    lightOut: {
     character: imgPokeballLightOut,
-    spriteWidth: 117,
-    spriteHeight: 40,
-    cols: 3,
-    rows: 1,
     widthFrame: 39,
     heightFrame: 40,
     spriteX: 0,
@@ -71,10 +83,6 @@ var pikachu = {
   speed: 5,
   still: {
     character: imgPikachuStill,
-    spriteWidth: 273,
-    spriteHeight: 40,
-    cols: 7,
-    rows: 1,
     widthFrame: 39,
     heightFrame: 40,
     spriteX: 0,
@@ -85,10 +93,6 @@ var pikachu = {
   },
   left: {
     character: imgPikachuLeft,
-    spriteWidth: 288,
-    spriteHeight: 37,
-    cols: 6,
-    rows: 1,
     widthFrame: 48,
     heightFrame: 37,
     spriteX: 0,
@@ -99,10 +103,6 @@ var pikachu = {
   },
   right: {
     character: imgPikachuRight,
-    spriteWidth: 288,
-    spriteHeight: 37,
-    cols: 6,
-    rows: 1,
     widthFrame: 48,
     heightFrame: 37,
     spriteX: 0,
@@ -113,10 +113,6 @@ var pikachu = {
   },
   attack: {
     character: imgPikachuAttack,
-    spriteWidth: 210,
-    spriteHeight: 37,
-    cols: 5,
-    rows: 1,
     widthFrame: 42,
     heightFrame: 37,
     spriteX: 0,
@@ -127,10 +123,6 @@ var pikachu = {
   },
   attackType: {
     character: imgPikachuThunder,
-    spriteWidth: 81,
-    spriteHeight: 614,
-    cols: 2,
-    rows: 1,
     widthFrame: 40.5,
     heightFrame: 614,
     spriteX: 0,
@@ -142,14 +134,10 @@ var pikachu = {
 };
 
 var squirtle = {
-  x2: 100,
+  x2: 90,
   speed: 5,
   still: {
     character: imgSquirtleStill,
-    spriteWidth: 273,
-    spriteHeight: 40,
-    cols: 7,
-    rows: 1,
     widthFrame: 41,
     heightFrame: 40,
     spriteX: 0,
@@ -160,10 +148,6 @@ var squirtle = {
   },
   left: {
     character: imgSquirtleLeft,
-    spriteWidth: 288,
-    spriteHeight: 37,
-    cols: 6,
-    rows: 1,
     widthFrame: 39,
     heightFrame: 40,
     spriteX: 0,
@@ -174,10 +158,6 @@ var squirtle = {
   },
   right: {
     character: imgSquirtleRight,
-    spriteWidth: 288,
-    spriteHeight: 37,
-    cols: 6,
-    rows: 1,
     widthFrame: 39,
     heightFrame: 40,
     spriteX: 0,
@@ -188,10 +168,6 @@ var squirtle = {
   },
   attack: {
     character: imgSquirtleAttack,
-    spriteWidth: 210,
-    spriteHeight: 37,
-    cols: 3,
-    rows: 1,
     widthFrame: 44,
     heightFrame: 40,
     spriteX: 0,
@@ -202,10 +178,6 @@ var squirtle = {
   },
   attackType: {
     character: imgSquirtleWater,
-    spriteWidth: 81,
-    spriteHeight: 614,
-    cols: 2,
-    rows: 1,
     widthFrame: 40.5,
     heightFrame: 614,
     spriteX: 0,
@@ -221,10 +193,6 @@ var charmander = {
   speed: 5,
   still: {
     character: imgCharmanderStill,
-    spriteWidth: 147,
-    spriteHeight: 40,
-    cols: 3,
-    rows: 1,
     widthFrame: 49,
     heightFrame: 40,
     spriteX: 0,
@@ -235,10 +203,6 @@ var charmander = {
   },
   left: {
     character: imgCharmanderLeft,
-    spriteWidth: 288,
-    spriteHeight: 37,
-    cols: 6,
-    rows: 1,
     widthFrame: 49,
     heightFrame: 40,
     spriteX: 0,
@@ -249,10 +213,6 @@ var charmander = {
   },
   right: {
     character: imgCharmanderRight,
-    spriteWidth: 288,
-    spriteHeight: 37,
-    cols: 6,
-    rows: 1,
     widthFrame: 49,
     heightFrame: 40,
     spriteX: 0,
@@ -263,10 +223,6 @@ var charmander = {
   },
   attack: {
     character: imgCharmanderAttack,
-    spriteWidth: 210,
-    spriteHeight: 37,
-    cols: 3,
-    rows: 1,
     widthFrame: 49,
     heightFrame: 40,
     spriteX: 0,
@@ -277,10 +233,6 @@ var charmander = {
   },
   attackType: {
     character: imgCharmanderFire,
-    spriteWidth: 81,
-    spriteHeight: 614,
-    cols: 2,
-    rows: 1,
     widthFrame: 40.5,
     heightFrame: 614,
     spriteX: 0,

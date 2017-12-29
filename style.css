@@ -349,6 +349,12 @@ canvas {
     font-size: 14px;
 }
 
+.legal-info {
+    margin-top: 10px;
+    font-size: 8px;
+    color: rgb(150, 150, 150);
+}
+
 .disable {
     display: none;
 }

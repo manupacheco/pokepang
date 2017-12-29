@@ -19,11 +19,11 @@ function PangGame(characterSelect) {
     this.intervalClearPowerBar = undefined;
     this.intervalTimer = undefined;
     this.intervalGame = undefined;
+    this.pokemonFly = new PokemonFly(550,10,180,150,2,height,width,pidgeotto.right);
 
-    // this.pokemonFly = new PokemonFly(-250,20,150,80,2,height,width);
-    // if(this.pokemonFly.x < (-240)){
-    // this.pokemonStone = new PokemonStone(this.pokemonFly.x+60,this.pokemonFly.y+this.pokemonFly.y2,40,40, this.pokemonFly.speedX, height, width);
-    // }
+    if(this.pokemonFly.x < (-240)){
+    this.pokemonStone = new PokemonStone(this.pokemonFly.x+55,this.pokemonFly.y+105,30,30, this.pokemonFly.speedX, height, width);
+    }
 }
 
 PangGame.prototype._selectCharacter = function (selection) {
@@ -76,12 +76,10 @@ PangGame.prototype._drawElements = function () {
         $('#player-attack').css("width", this.power + "%");
     }
 
-    // this.ctx.fillRect(this.pokemonFly.x,this.pokemonFly.y,this.pokemonFly.x2, this.pokemonFly.y2)
-    // this.ctx.fillStyle = this.pokemonFly.character;
+    this.ctx.fillRect(this.pokemonStone.x, this.pokemonStone.y, this.pokemonStone.x2, this.pokemonStone.y2);
+    this.ctx.fillStyle = this.pokemonStone.character;
 
-
-    // this.ctx.fillRect(this.pokemonStone.x, this.pokemonStone.y, this.pokemonStone.x2, this.pokemonStone.y2)
-    // this.ctx.fillStyle = this.pokemonStone.character;
+    this.ctx.drawImage(this.pokemonFly.character, this.pokemonFly.spriteX, this.pokemonFly.spriteY, this.pokemonFly.widthFrame, this.pokemonFly.heightFrame, this.pokemonFly.x,this.pokemonFly.y,this.pokemonFly.x2, this.pokemonFly.y2);
 };
 
 PangGame.prototype._collisionDetectionElements = function (elementOne, elementTwo) {
@@ -185,7 +183,7 @@ PangGame.prototype._collisionAttackPokemonFly = function () {
 PangGame.prototype._collisionPlayerPokemonStone = function () {
     if (this._collisionDetectionElements(this.player, this.pokemonStone) === true) {
         this.pokemonStone.falling = false;
-        this.pokemonStone = new PokemonStone(this.pokemonFly.x + 60, this.pokemonFly.y + this.pokemonFly.y2, 40, 40, this.pokemonFly.speedX, height, width);
+        this.pokemonStone = new PokemonStone(this.pokemonFly.x + 55, this.pokemonFly.y + 105, 30, 30, this.pokemonFly.speedX, height, width);
         console.log('power!');
     }
 };
@@ -290,7 +288,7 @@ PangGame.prototype._controlsKeys = function () {
                     }.bind(this));
                 }
             }
-            if (e.keyCode == 77 && this.power > 99) { // m massiveAttack function
+            if (e.keyCode == 77 && this.power > 99 && this.caugth === false) { // m massiveAttack function
                 this._generateMasiveAttack();
             }
         }.bind(this);
