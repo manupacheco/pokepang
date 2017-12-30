@@ -42,23 +42,23 @@ Player.prototype.goStill = function (character) {
 };
 
 Player.prototype.goLeft = function (character) {
-    if (this.direction != 'left') {
-        this.x = this.x - this.speed;
-        this._changeMoveFrame(character.left);
-    }
     if (this.x > 0) {
         this.x = this.x - this.speed;
+        if (this.direction != 'left') {
+            this.x = this.x - this.speed;
+            this._changeMoveFrame(character.left);
+        }
     }
     this.direction = 'left';
 };
 
 Player.prototype.goRight = function (character) {
-    if (this.direction != 'right') {
-        this.x = this.x + this.speed;
-        this._changeMoveFrame(character.right);
-    }
     if (this.x < (width - this.x2)) {
         this.x = this.x + this.speed;
+        if (this.direction != 'right') {
+            this.x = this.x + this.speed;
+            this._changeMoveFrame(character.right);
+        }
     }
     this.direction = 'right';
 };
@@ -100,7 +100,7 @@ Attack.prototype.updateAttack = function (x, x2, height, width) {
             this.y = height;
             this.x2 = 0;
             this.y2 = 0;
-            this.intervalAttack = undefined;
+            this.intervalAttack = clearInterval(this.intervalAttack);
         }
     }.bind(this), 100);
 };
@@ -111,7 +111,7 @@ Attack.prototype.deleteAttack = function () {
     this.y = height;
     this.x2 = 0;
     this.y2 = 0;
-    this.intervalAttack = undefined;
+    this.intervalAttack = clearInterval(this.intervalAttack);
 };
 
 function Ball(height, width, x, y, x2, y2, speedX, speedY) {
@@ -168,24 +168,24 @@ Ball.prototype.updatePosBall = function () {
     this.intervalPosBall = window.requestAnimationFrame(this.updatePosBall.bind(this));
 };
 
-function PokemonFly(x, y, x2, y2, speedX, height, width, pokemon) {
-    this.character = pokemon.character;
-    this.x = x;
-    this.y = y;
-    this.x2 = x2;
-    this.y2 = y2;
-    this.speedX = speedX;
+function PokemonFly(height, width) {
+    this.character = pidgeotto.right.character;
+    this.x = -1200;
+    this.y = 10;
+    this.x2 = 189;
+    this.y2 = 150;
+    this.speedX = 2;
     this.boardHeight = height;
     this.boardWidth = width;
     this.intervalPokemonFly = undefined;
-    this.direction = 'left';
+    this.direction = 'right';
     //animation
-    this.widthFrame = pokemon.widthFrame;
-    this.heightFrame = pokemon.heightFrame;
-    this.spriteX = pokemon.spriteX;
-    this.spriteY = pokemon.spriteY;
-    this.currentFrame = pokemon.currentFrame;
-    this.frameCount = pokemon.frameCount;
+    this.widthFrame = pidgeotto.right.widthFrame;
+    this.heightFrame = pidgeotto.right.heightFrame;
+    this.spriteX = pidgeotto.right.spriteX;
+    this.spriteY = pidgeotto.right.spriteY;
+    this.currentFrame = pidgeotto.right.currentFrame;
+    this.frameCount = pidgeotto.right.frameCount;
     this.updatePosPokemonFly();
     this._updateFramePokemonFly();
 }
@@ -199,53 +199,86 @@ PokemonFly.prototype._updateFramePokemonFly = function () {
 
 PokemonFly.prototype.updatePosPokemonFly = function () {
     this.intervalPokemonFly = window.cancelAnimationFrame(this.intervalPokemonFly);
-    if(this.direction == 'right'){
-        if (this.x > this.boardWidth + 200) {
-            this.x = this.boardWidth + 250;
-            this.direction = 'left';
+    if (this.direction == 'right') {
+        if (this.x > this.boardWidth + 2200) {
+            this.x = this.boardWidth + 1250;
+            this._changeAnimationDirection('left');
         }
         this.x += this.speedX;
     }
-    if(this.direction == 'left'){
-        if (this.x > -200) {
-            this.x = -250;
-            this.direction = 'right';
+    if (this.direction == 'left') {
+        if (this.x < (-2200)) {
+            this.x = (-1250);
+            this._changeAnimationDirection('right');
         }
         this.x -= this.speedX;
     }
     this.intervalPokemonFly = window.requestAnimationFrame(this.updatePosPokemonFly.bind(this));
 };
 
-function PokemonStone(x, y, x2, y2, speedX, height, width) {
-    this.character = 'red';
-    this.x = x;
-    this.y = y;
-    this.x2 = x2;
-    this.y2 = y2;
-    this.speedX = speedX;
+PokemonFly.prototype._changeAnimationDirection = function (direction) {
+    this.direction = direction;
+    if (direction === 'left') {
+        this.character = pidgeotto.left.character;
+        this.widthFrame = pidgeotto.left.widthFrame;
+        this.heightFrame = pidgeotto.left.heightFrame;
+        this.spriteX = pidgeotto.left.spriteX;
+        this.spriteY = pidgeotto.left.spriteY;
+        this.currentFrame = pidgeotto.left.currentFrame;
+        this.frameCount = pidgeotto.left.frameCount;
+    }
+    if (direction === 'right') {
+        this.character = pidgeotto.right.character;
+        this.widthFrame = pidgeotto.right.widthFrame;
+        this.heightFrame = pidgeotto.right.heightFrame;
+        this.spriteX = pidgeotto.right.spriteX;
+        this.spriteY = pidgeotto.right.spriteY;
+        this.currentFrame = pidgeotto.right.currentFrame;
+        this.frameCount = pidgeotto.right.frameCount;
+    }
+};
+
+function PokemonStone(height, width) {
+    this.character = undefined;
+    this.x = 0;
+    this.y = 0;
+    this.x2 = 30;
+    this.y2 = 30;
     this.boardHeight = height;
     this.boardWidth = width;
     this.gravity = 2;
     this.intervalPokemonStone = undefined;
     this.typeStone = undefined;
     this.falling = false;
+    this.type = '';
     this._typeStone();
-    this.updatePosPokemonStone();
 }
 
-PokemonStone.prototype.updatePosPokemonStone = function () {
-    //this.intervalPokemonFly = window.cancelAnimationFrame(this.intervalPokemonFly);   
-    if (this.x - 60 > this.boardWidth) {
-        this.x = -190;
-    }
+PokemonStone.prototype.updatePosPokemonStone = function (pokemonFly) {
     if (this.falling === true) {
         this.y += this.gravity;
     } else {
-        this.x += this.speedX;
+        if (pokemonFly.direction === "left") {
+            this.x = pokemonFly.x + 100;
+            this.y = pokemonFly.y + 105;
+        } else {
+            this.x = pokemonFly.x + 55;
+            this.y = pokemonFly.y + 105;
+        }
     }
-    this.intervalPokemonStone = window.requestAnimationFrame(this.updatePosPokemonStone.bind(this));
 };
 
 PokemonStone.prototype._typeStone = function () {
-
+    switch (Math.floor(Math.random() * (2 - 0) + 0)) {
+        case 0:
+            this.type = 'heart';
+            this.character = imgStoneHeart;
+            console.log(this.type);
+            break;
+        case 1:
+            this.type = 'power';
+            this.character = imgStonePower;
+            console.log(this.type);
+            break;
+    }
 };

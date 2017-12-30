@@ -8,6 +8,8 @@ function PangGame(characterSelect) {
     this.character = this._selectCharacter(characterSelect);
     this.player = new Player(this.character);
     this.attack = new Attack(height, this.character.attackType);
+    this.pokemonFly = new PokemonFly(height,width);
+    this.pokemonStone = new PokemonStone(height, width);
     this.balls = [];
     this.counterBall = 1000;
     this.counterLifes = 3;
@@ -19,11 +21,6 @@ function PangGame(characterSelect) {
     this.intervalClearPowerBar = undefined;
     this.intervalTimer = undefined;
     this.intervalGame = undefined;
-    this.pokemonFly = new PokemonFly(550,10,180,150,2,height,width,pidgeotto.right);
-
-    if(this.pokemonFly.x < (-240)){
-    this.pokemonStone = new PokemonStone(this.pokemonFly.x+55,this.pokemonFly.y+105,30,30, this.pokemonFly.speedX, height, width);
-    }
 }
 
 PangGame.prototype._selectCharacter = function (selection) {
@@ -75,10 +72,7 @@ PangGame.prototype._drawElements = function () {
     if (this.power < 101) {
         $('#player-attack').css("width", this.power + "%");
     }
-
-    this.ctx.fillRect(this.pokemonStone.x, this.pokemonStone.y, this.pokemonStone.x2, this.pokemonStone.y2);
-    this.ctx.fillStyle = this.pokemonStone.character;
-
+    this.ctx.drawImage(this.pokemonStone.character, this.pokemonStone.x, this.pokemonStone.y, this.pokemonStone.x2, this.pokemonStone.y2);
     this.ctx.drawImage(this.pokemonFly.character, this.pokemonFly.spriteX, this.pokemonFly.spriteY, this.pokemonFly.widthFrame, this.pokemonFly.heightFrame, this.pokemonFly.x,this.pokemonFly.y,this.pokemonFly.x2, this.pokemonFly.y2);
 };
 
@@ -139,6 +133,23 @@ PangGame.prototype._subtractLife = function () {
     }
 };
 
+PangGame.prototype._addLife = function () {
+    if(this.counterLifes === 3){
+        this.score = this.score + 20;
+    } else {
+    this.counterLifes++;
+    if (this.counterLifes === 3) {
+        $('#player-state').css("background-image", "url('img/hearts_full.png')");
+    }
+    if (this.counterLifes === 2) {
+        $('#player-state').css("background-image", "url('img/hearts_two.png')");
+    }
+    if (this.counterLifes === 1) {
+        $('#player-state').css("background-image", "url('img/hearts_one.png')");
+    }
+}
+};
+
 PangGame.prototype._collisionBallsAttack = function () {
     this.balls.forEach(function (e, i) {
         if ((this._collisionDetectionElements(e, this.attack)) === true) {
@@ -176,15 +187,23 @@ PangGame.prototype._collisionBallsMasiveAttack = function () {
 PangGame.prototype._collisionAttackPokemonFly = function () {
     if(this._collisionDetectionElements(this.pokemonFly, this.attack) === true){
         this.pokemonStone.falling = true;
-        console.log('pum');
+        this.attack.deleteAttack();
+        console.log('new stone creating...');
+        setTimeout(function(){
+            this.pokemonStone = new PokemonStone(height, width);
+        }.bind(this), 12000);
     }
 };
 
 PangGame.prototype._collisionPlayerPokemonStone = function () {
     if (this._collisionDetectionElements(this.player, this.pokemonStone) === true) {
-        this.pokemonStone.falling = false;
-        this.pokemonStone = new PokemonStone(this.pokemonFly.x + 55, this.pokemonFly.y + 105, 30, 30, this.pokemonFly.speedX, height, width);
-        console.log('power!');
+        this.pokemonStone.y = height + 100;
+        if(this.pokemonStone.type === 'heart'){
+            this._addLife();
+        }
+        if(this.pokemonStone.type === 'power'){
+            this._fillPowerBar(40);
+        }
     }
 };
 
@@ -328,5 +347,6 @@ PangGame.prototype._update = function () {
     this._collisionBallsPlayer();
     this._collisionAttackPokemonFly();
     this._collisionPlayerPokemonStone();
+    this.pokemonStone.updatePosPokemonStone(this.pokemonFly);
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
 };
