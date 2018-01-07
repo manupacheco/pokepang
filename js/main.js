@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var pang;
     var characterSelect;
+    soundIntro.play();
 
     $('#select-characters').on('click', '.characters', function () {
         $('#btn-start').removeAttr('disabled');

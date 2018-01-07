@@ -23,10 +23,18 @@ var imgPidgeottoLeft = new Image();imgPidgeottoLeft.src = 'img/pidgeotto_left.pn
 var imgPidgeottoRight = new Image();imgPidgeottoRight.src = 'img/pidgeotto_right.png';
 var imgStoneHeart = new Image();imgStoneHeart.src = 'img/stone_heart.png';
 var imgStonePower = new Image(); imgStonePower.src = 'img/stone_power.png';
+var soundIntro = new Audio(); soundIntro.src = 'sound/intro.mp3'; soundIntro.volume -= 0.7;
+var soundInGame = new Audio(); soundInGame.src = 'sound/ingame.mp3'; soundInGame.volume -= 0.7;
+var soundLoser = new Audio(); soundLoser.src = 'sound/loser.mp3'; soundLoser.volume -= 0.7;
+var soundCaught = new Audio(); soundCaught.src = 'sound/caught.mp3'; soundCaught.volume-= 0.4;
+var soundPikachu = new Audio(); soundPikachu.src = 'sound/pikachu.ogx'; soundPikachu.volume -= 0.8;
+var soundCharmander = new Audio(); soundCharmander.src = 'sound/charmander.mp3';
+var soundSquirtle = new Audio(); soundSquirtle.src = 'sound/squirtle.mp3';
 
 var pikachu = {
   x2: 90,
   speed: 5,
+  sound: soundPikachu,
   still: {
     character: imgPikachuStill,
     widthFrame: 39,
@@ -82,6 +90,7 @@ var pikachu = {
 var squirtle = {
   x2: 90,
   speed: 5,
+  sound: soundSquirtle,
   still: {
     character: imgSquirtleStill,
     widthFrame: 41,
@@ -137,6 +146,7 @@ var squirtle = {
 var charmander = {
   x2: 120,
   speed: 5,
+  sound: soundCharmander,
   still: {
     character: imgCharmanderStill,
     widthFrame: 49,

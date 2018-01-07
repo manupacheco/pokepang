@@ -6,6 +6,7 @@ function PangGame(characterSelect) {
     this.ctx = document.getElementById('game-board').getContext('2d');
     this.board = imgBoard;
     this.character = this._selectCharacter(characterSelect);
+    this.character.sound.play();
     this.player = new Player(this.character);
     this.attack = new Attack(height, this.character.attackType);
     this.pokemonFly = new PokemonFly(height,width);
@@ -45,6 +46,8 @@ PangGame.prototype._selectCharacter = function (selection) {
 PangGame.prototype.init = function () {
     this._update();
     this._timer();
+    soundIntro.pause();
+    soundInGame.play();
     this.balls.push(new Ball(height, width, 50, 50, 65, 65, 1, 5));
 };
 
@@ -55,6 +58,7 @@ PangGame.prototype._timer = function () {
 };
 
 PangGame.prototype._drawElements = function () {
+    
     this.ctx.drawImage(this.attack.image, this.attack.spriteX, this.attack.spriteY, this.attack.widthFrame, this.attack.heightFrame, this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
     if (this.massiveAttack.length !== 0) {
         this.massiveAttack.forEach(function (e, i) {
@@ -102,6 +106,7 @@ PangGame.prototype._collisionBallsPlayer = function () {
 
 PangGame.prototype._caugthAnimation = function () {
     this.player._changeMoveFrame(caugth.lightIn);
+    soundCaught.play();
     setTimeout(function () {
         this.player._changeMoveFrame(caugth.pokeball);
         setTimeout(function () {
@@ -256,6 +261,7 @@ PangGame.prototype._fillPowerBar = function (powerAdd) {
 PangGame.prototype._cleanPowerBar = function () {
     this.power = 100;
     $('#masive-attack').addClass('disable');
+    clearInterval(this.intervalFillPowerBar);
     this.intervalClearPowerBar = setInterval(function () {
         this.power--;
         if (this.power === 0) {
@@ -265,6 +271,8 @@ PangGame.prototype._cleanPowerBar = function () {
 };
 
 PangGame.prototype._youLose = function () {
+    soundInGame.pause();
+    soundLoser.play();
     this.caugth = true;
     $('.loser-screen').removeClass('disable');
 };
@@ -285,6 +293,7 @@ PangGame.prototype._stop = function () {
         this.balls[i].intervalPosBall = window.cancelAnimationFrame(this.balls[i].intervalPosBall);
     }.bind(this));
     this.caugth = true;
+    soundInGame.pause();
 };
 
 PangGame.prototype._controlsKeys = function () {
@@ -299,6 +308,7 @@ PangGame.prototype._controlsKeys = function () {
                     $('.pause-screen').addClass('disable');
                     this._update();
                     this._timer();
+                    soundInGame.play();
                     this.caugth = false;
                     this.player.updateFramePlayer();
                     this.attack.updateAttack();
@@ -333,6 +343,7 @@ PangGame.prototype._controlsKeys = function () {
         if (keys[32]) {
             this.attack.updateAttack(this.player.x, this.player.x2, height, width);
             this.player.goAttack(this.character);
+            this.character.sound.play();
         }
     }
 };
