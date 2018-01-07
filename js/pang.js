@@ -9,7 +9,7 @@ function PangGame(characterSelect) {
     this.character.sound.play();
     this.player = new Player(this.character);
     this.attack = new Attack(height, this.character.attackType);
-    this.pokemonFly = new PokemonFly(height,width);
+    this.pokemonFly = new PokemonFly(height, width);
     this.pokemonStone = new PokemonStone(height, width);
     this.balls = [];
     this.counterBall = 1000;
@@ -58,7 +58,7 @@ PangGame.prototype._timer = function () {
 };
 
 PangGame.prototype._drawElements = function () {
-    
+
     this.ctx.drawImage(this.attack.image, this.attack.spriteX, this.attack.spriteY, this.attack.widthFrame, this.attack.heightFrame, this.attack.x, this.attack.y, this.attack.x2, this.attack.y2);
     if (this.massiveAttack.length !== 0) {
         this.massiveAttack.forEach(function (e, i) {
@@ -77,7 +77,7 @@ PangGame.prototype._drawElements = function () {
         $('#player-attack').css("width", this.power + "%");
     }
     this.ctx.drawImage(this.pokemonStone.character, this.pokemonStone.x, this.pokemonStone.y, this.pokemonStone.x2, this.pokemonStone.y2);
-    this.ctx.drawImage(this.pokemonFly.character, this.pokemonFly.spriteX, this.pokemonFly.spriteY, this.pokemonFly.widthFrame, this.pokemonFly.heightFrame, this.pokemonFly.x,this.pokemonFly.y,this.pokemonFly.x2, this.pokemonFly.y2);
+    this.ctx.drawImage(this.pokemonFly.character, this.pokemonFly.spriteX, this.pokemonFly.spriteY, this.pokemonFly.widthFrame, this.pokemonFly.heightFrame, this.pokemonFly.x, this.pokemonFly.y, this.pokemonFly.x2, this.pokemonFly.y2);
 };
 
 PangGame.prototype._collisionDetectionElements = function (elementOne, elementTwo) {
@@ -139,25 +139,26 @@ PangGame.prototype._subtractLife = function () {
 };
 
 PangGame.prototype._addLife = function () {
-    if(this.counterLifes === 3){
+    if (this.counterLifes === 3) {
         this.score = this.score + 20;
     } else {
-    this.counterLifes++;
-    if (this.counterLifes === 3) {
-        $('#player-state').css("background-image", "url('img/hearts_full.png')");
+        this.counterLifes++;
+        if (this.counterLifes === 3) {
+            $('#player-state').css("background-image", "url('img/hearts_full.png')");
+        }
+        if (this.counterLifes === 2) {
+            $('#player-state').css("background-image", "url('img/hearts_two.png')");
+        }
+        if (this.counterLifes === 1) {
+            $('#player-state').css("background-image", "url('img/hearts_one.png')");
+        }
     }
-    if (this.counterLifes === 2) {
-        $('#player-state').css("background-image", "url('img/hearts_two.png')");
-    }
-    if (this.counterLifes === 1) {
-        $('#player-state').css("background-image", "url('img/hearts_one.png')");
-    }
-}
 };
 
 PangGame.prototype._collisionBallsAttack = function () {
     this.balls.forEach(function (e, i) {
         if ((this._collisionDetectionElements(e, this.attack)) === true) {
+            soundCrash.play();
             this.score = this.score + 5;
             this._fillPowerBar(10);
             if (e.x2 === 50) { //Small Ball
@@ -182,6 +183,7 @@ PangGame.prototype._collisionBallsMasiveAttack = function () {
     this.massiveAttack.forEach(function (attackElement, attackIndex) {
         this.balls.forEach(function (ballsElement, ballsIndex) {
             if (this._collisionDetectionElements(ballsElement, attackElement) === true) {
+                soundCrash.play();
                 this.score = this.score + 2;
                 this.balls.splice(ballsIndex, 1);
             }
@@ -190,11 +192,12 @@ PangGame.prototype._collisionBallsMasiveAttack = function () {
 };
 
 PangGame.prototype._collisionAttackPokemonFly = function () {
-    if(this._collisionDetectionElements(this.pokemonFly, this.attack) === true){
+    if (this._collisionDetectionElements(this.pokemonFly, this.attack) === true) {
         this.pokemonStone.falling = true;
         this.attack.deleteAttack();
+        soundPidgeotto.play();
         console.log('new stone creating...');
-        setTimeout(function(){
+        setTimeout(function () {
             this.pokemonStone = new PokemonStone(height, width);
         }.bind(this), 12000);
     }
@@ -203,10 +206,12 @@ PangGame.prototype._collisionAttackPokemonFly = function () {
 PangGame.prototype._collisionPlayerPokemonStone = function () {
     if (this._collisionDetectionElements(this.player, this.pokemonStone) === true) {
         this.pokemonStone.y = height + 100;
-        if(this.pokemonStone.type === 'heart'){
+        if (this.pokemonStone.type === 'heart') {
+            soundHeart.play();
             this._addLife();
         }
-        if(this.pokemonStone.type === 'power'){
+        if (this.pokemonStone.type === 'power') {
+            soundPower.play();
             this._fillPowerBar(40);
         }
     }
@@ -214,6 +219,7 @@ PangGame.prototype._collisionPlayerPokemonStone = function () {
 
 PangGame.prototype._generateMasiveAttack = function () {
     $('canvas').css("background-image", "url('img/board_dark.jpg')");
+    soundMassiveAttack.play();
     this.player.goAttack(this.character);
     this.balls.forEach(function (e, i) {
         this.balls[i].intervalPosBall = window.cancelAnimationFrame(this.balls[i].intervalPosBall);
@@ -248,18 +254,21 @@ PangGame.prototype._generateMasiveAttack = function () {
 PangGame.prototype._fillPowerBar = function (powerAdd) {
     var totalPower = this.power + powerAdd;
     this.intervalFillPowerBar = setInterval(function () {
-        this.power++;
+        if (totalPower < 101) {
+            this.power++;
+        }
         if (this.power === totalPower) {
-            clearInterval(this.intervalFillPowerBar);
+            this.intervalFillPowerBar = clearInterval(this.intervalFillPowerBar);
         }
         if (this.power > 99) {
+            this.power = 100;
             $('#masive-attack').removeClass('disable');
         }
     }.bind(this), 50);
 };
 
 PangGame.prototype._cleanPowerBar = function () {
-    this.power = 100;
+    this.power = 99;
     $('#masive-attack').addClass('disable');
     clearInterval(this.intervalFillPowerBar);
     this.intervalClearPowerBar = setInterval(function () {

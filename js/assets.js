@@ -23,14 +23,22 @@ var imgPidgeottoLeft = new Image();imgPidgeottoLeft.src = 'img/pidgeotto_left.pn
 var imgPidgeottoRight = new Image();imgPidgeottoRight.src = 'img/pidgeotto_right.png';
 var imgStoneHeart = new Image();imgStoneHeart.src = 'img/stone_heart.png';
 var imgStonePower = new Image(); imgStonePower.src = 'img/stone_power.png';
-var soundIntro = new Audio(); soundIntro.src = 'sound/intro.mp3'; soundIntro.volume -= 0.7;
-var soundInGame = new Audio(); soundInGame.src = 'sound/ingame.mp3'; soundInGame.volume -= 0.7;
+
+//sounds
+var soundIntro = new Audio(); soundIntro.src = 'sound/intro.mp3'; soundIntro.volume -= 0.7; soundIntro.loop = true;
+var soundInGame = new Audio(); soundInGame.src = 'sound/ingame.mp3'; soundInGame.volume -= 0.7; soundInGame.loop = true;
 var soundLoser = new Audio(); soundLoser.src = 'sound/loser.mp3'; soundLoser.volume -= 0.7;
-var soundCaught = new Audio(); soundCaught.src = 'sound/caught.mp3'; soundCaught.volume-= 0.4;
+var soundCaught = new Audio(); soundCaught.src = 'sound/caught.mp3'; soundCaught.volume -= 0.4;
+var soundCrash = new Audio(); soundCrash.src = 'sound/crash.mp3';
+var soundMassiveAttack = new Audio(); soundMassiveAttack.src = 'sound/massiveAttack.mp3';
+var soundPower = new Audio(); soundPower.src = 'sound/win.mp3'; soundPower.volume -= 0.5;
+var soundHeart = new Audio(); soundHeart.src = 'sound/health.mp3'; soundHeart.volume -= 0.5;
+var soundPidgeotto = new Audio(); soundPidgeotto.src = 'sound/pidgeotto.mp3';
 var soundPikachu = new Audio(); soundPikachu.src = 'sound/pikachu.ogx'; soundPikachu.volume -= 0.8;
 var soundCharmander = new Audio(); soundCharmander.src = 'sound/charmander.mp3';
 var soundSquirtle = new Audio(); soundSquirtle.src = 'sound/squirtle.mp3';
 
+//characters
 var pikachu = {
   x2: 90,
   speed: 5,
