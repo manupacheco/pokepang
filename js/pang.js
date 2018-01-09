@@ -15,7 +15,7 @@ function PangGame(characterSelect) {
     this.counterBall = 1000;
     this.counterLifes = 3;
     this.score = 25;
-    this.power = 90;
+    this.power = 50;
     this.caugth = false;
     this.massiveAttack = [];
     this.intervalFillPowerBar = undefined;
@@ -73,9 +73,8 @@ PangGame.prototype._drawElements = function () {
         this.score = 0;
     }
     $('#player-score').html(this.score);
-    if (this.power < 101) {
-        $('#player-attack').css("width", this.power + "%");
-    }
+    $('#player-attack').css("width", this.power + "%");
+
     this.ctx.drawImage(this.pokemonStone.character, this.pokemonStone.x, this.pokemonStone.y, this.pokemonStone.x2, this.pokemonStone.y2);
     this.ctx.drawImage(this.pokemonFly.character, this.pokemonFly.spriteX, this.pokemonFly.spriteY, this.pokemonFly.widthFrame, this.pokemonFly.heightFrame, this.pokemonFly.x, this.pokemonFly.y, this.pokemonFly.x2, this.pokemonFly.y2);
 };
@@ -227,6 +226,7 @@ PangGame.prototype._generateMasiveAttack = function () {
     this.caugth = true;
 
     setTimeout(function () {
+        this.power = 99;
         this.massiveAttack = [];
         this._cleanPowerBar();
         for (var i = 0; i < 15; i++) {
@@ -251,22 +251,6 @@ PangGame.prototype._generateMasiveAttack = function () {
     }.bind(this), 2000);
 };
 
-PangGame.prototype._fillPowerBar = function (powerAdd) {
-    var totalPower = this.power + powerAdd;
-    this.intervalFillPowerBar = setInterval(function () {
-        if (totalPower < 101) {
-            this.power++;
-        }
-        if (this.power === totalPower) {
-            this.intervalFillPowerBar = clearInterval(this.intervalFillPowerBar);
-        }
-        if (this.power > 99) {
-            this.power = 100;
-            $('#masive-attack').removeClass('disable');
-        }
-    }.bind(this), 50);
-};
-
 PangGame.prototype._cleanPowerBar = function () {
     this.power = 99;
     $('#masive-attack').addClass('disable');
@@ -277,6 +261,33 @@ PangGame.prototype._cleanPowerBar = function () {
             clearInterval(this.intervalClearPowerBar);
         }
     }.bind(this), 40);
+};
+
+PangGame.prototype._fillPowerBar = function (powerAdd) {
+    var totalPower = this.power + powerAdd;
+    this.intervalFillPowerBar = setInterval(function () {
+        if (this.power > 99) {
+            this.power = 100;
+            $('#masive-attack').removeClass('disable');
+            this.intervalFillPowerBar = clearInterval(this.intervalFillPowerBar);
+        }
+        if (totalPower < 101) {
+            this.power++;
+            if (this.power === totalPower) {
+                this.intervalFillPowerBar = clearInterval(this.intervalFillPowerBar);
+            }
+            if (this.power === 100) {
+                $('#masive-attack').removeClass('disable');
+                this.intervalFillPowerBar = clearInterval(this.intervalFillPowerBar);
+            }
+        } else {
+            this.power++;
+            if (this.power === 100) {
+                $('#masive-attack').removeClass('disable');
+                this.intervalFillPowerBar = clearInterval(this.intervalFillPowerBar);
+            }
+        }
+    }.bind(this), 50);
 };
 
 PangGame.prototype._youLose = function () {
