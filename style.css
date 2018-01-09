@@ -210,6 +210,13 @@ canvas {
     background-position: bottom;
 }
 
+#bulbasur {
+    background-image: url('img/select_bulbasur.gif');
+    background-size: 90px, 90px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
 #squirtle {
     background-image: url('img/select_squirtle.gif');
     background-size: 90px, 90px;

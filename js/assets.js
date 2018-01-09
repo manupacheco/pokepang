@@ -9,6 +9,11 @@ var imgPikachuLeft = new Image();imgPikachuLeft.src = 'img/pikachu_run_left.png'
 var imgPikachuRight = new Image();imgPikachuRight.src = 'img/pikachu_run_right.png';
 var imgPikachuAttack = new Image();imgPikachuAttack.src = 'img/pikachu_attack.png';
 var imgPikachuThunder = new Image();imgPikachuThunder.src = 'img/thunder.png';
+var imgBulbasurStill = new Image();imgBulbasurStill.src = 'img/bulbasur_normal.png';
+var imgBulbasurLeft = new Image();imgBulbasurLeft.src = 'img/bulbasur_left.png';
+var imgBulbasurRight = new Image(); imgBulbasurRight.src = 'img/bulbasur_right.png';
+var imgBulbasurAttack = new Image(); imgBulbasurAttack.src = 'img/bulbasur_attack.png';
+var imgBulbasurLeaf = new Image(); imgBulbasurLeaf.src = 'img/leaf.png';
 var imgSquirtleStill = new Image();imgSquirtleStill.src = 'img/squirtle_normal.png';
 var imgSquirtleLeft = new Image();imgSquirtleLeft.src = 'img/squirtle_left.png';
 var imgSquirtleRight = new Image();imgSquirtleRight.src = 'img/squirtle_right.png';
@@ -25,9 +30,9 @@ var imgStoneHeart = new Image();imgStoneHeart.src = 'img/stone_heart.png';
 var imgStonePower = new Image(); imgStonePower.src = 'img/stone_power.png';
 
 //sounds
-var soundIntro = new Audio(); soundIntro.src = 'sound/intro.mp3'; soundIntro.volume -= 0.7; soundIntro.loop = true;
-var soundInGame = new Audio(); soundInGame.src = 'sound/ingame.mp3'; soundInGame.volume -= 0.7; soundInGame.loop = true;
-var soundLoser = new Audio(); soundLoser.src = 'sound/loser.mp3'; soundLoser.volume -= 0.7;
+var soundIntro = new Audio(); soundIntro.src = 'sound/intro.mp3'; soundIntro.volume -= 0.8; soundIntro.loop = true;
+var soundInGame = new Audio(); soundInGame.src = 'sound/ingame.mp3'; soundInGame.volume -= 0.8; soundInGame.loop = true;
+var soundLoser = new Audio(); soundLoser.src = 'sound/loser.mp3'; soundLoser.volume -= 0.8;
 var soundCaught = new Audio(); soundCaught.src = 'sound/caught.mp3'; soundCaught.volume -= 0.4;
 var soundCrash = new Audio(); soundCrash.src = 'sound/crash.mp3';
 var soundMassiveAttack = new Audio(); soundMassiveAttack.src = 'sound/massiveAttack.mp3';
@@ -35,8 +40,9 @@ var soundPower = new Audio(); soundPower.src = 'sound/win.mp3'; soundPower.volum
 var soundHeart = new Audio(); soundHeart.src = 'sound/health.mp3'; soundHeart.volume -= 0.5;
 var soundPidgeotto = new Audio(); soundPidgeotto.src = 'sound/pidgeotto.mp3';
 var soundPikachu = new Audio(); soundPikachu.src = 'sound/pikachu.ogx'; soundPikachu.volume -= 0.8;
-var soundCharmander = new Audio(); soundCharmander.src = 'sound/charmander.mp3';
+var soundBulbasur = new Audio(); soundBulbasur.src = 'sound/bulbasur.mp3';
 var soundSquirtle = new Audio(); soundSquirtle.src = 'sound/squirtle.mp3';
+var soundCharmander = new Audio(); soundCharmander.src = 'sound/charmander.mp3';
 
 //characters
 var pikachu = {
@@ -85,6 +91,62 @@ var pikachu = {
   },
   attackType: {
     character: imgPikachuThunder,
+    widthFrame: 40.5,
+    heightFrame: 614,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 2,
+    speedFrame: 100,
+  }
+};
+
+var bulbasur = {
+  x2: 105,
+  speed: 5,
+  sound: soundBulbasur,
+  still: {
+    character: imgBulbasurStill,
+    widthFrame: 38,
+    heightFrame: 34,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 3,
+    speedFrame: 200,
+  },
+  left: {
+    character: imgBulbasurLeft,
+    widthFrame: 38,
+    heightFrame: 34,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 5,
+    speedFrame: 50,
+  },
+  right: {
+    character: imgBulbasurRight,
+    widthFrame: 38,
+    heightFrame: 34,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 5,
+    speedFrame: 50,
+  },
+  attack: {
+    character: imgBulbasurAttack,
+    widthFrame: 38,
+    heightFrame: 34,
+    spriteX: 0,
+    spriteY: 0,
+    currentFrame: 0,
+    frameCount: 5,
+    speedFrame: 50,
+  },
+  attackType: {
+    character: imgBulbasurLeaf,
     widthFrame: 40.5,
     heightFrame: 614,
     spriteX: 0,

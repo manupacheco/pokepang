@@ -32,6 +32,11 @@ PangGame.prototype._selectCharacter = function (selection) {
             $('#player-img').css("background-image", "url('img/select_pikachu.gif')");
             $('#player-attack').css("background-image", "url('img/power_thunder.png')");
             return pikachu;
+        case "bulbasur":
+            $('#player-img').css("background-image", "url('img/select_bulbasur.gif')");
+            $('#player-attack').css("background-image", "url('img/power_leaf.png')");
+            $('.blinking').css("color", "rgb(255, 255, 255)");
+            return bulbasur;
         case "squirtle":
             $('#player-img').css("background-image", "url('img/select_squirtle.gif')");
             $('#player-attack').css("background-image", "url('img/power_water.png')");
@@ -219,6 +224,7 @@ PangGame.prototype._collisionPlayerPokemonStone = function () {
 PangGame.prototype._generateMasiveAttack = function () {
     $('canvas').css("background-image", "url('img/board_dark.jpg')");
     soundMassiveAttack.play();
+    this.character.sound.play();
     this.player.goAttack(this.character);
     this.balls.forEach(function (e, i) {
         this.balls[i].intervalPosBall = window.cancelAnimationFrame(this.balls[i].intervalPosBall);
